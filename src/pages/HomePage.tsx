@@ -6,9 +6,9 @@ import FeaturedProducts from '../components/FeaturedProducts';
 import GlobalMarket from '../components/GlobalMarket';
 
 const hotItems = [
-  { id: '1', name: '经典风衣外套', price: 450, image: '/clothes/item1.jpg', badge: '人气爆款' },
-  { id: '2', name: '优雅针织衫', price: 500, image: '/clothes/item2.jpg', badge: '热销TOP1' },
-  { id: '3', name: '时尚休闲套装', price: 550, image: '/clothes/item3.jpg', badge: '限量发售' },
+  { id: '1', name: '经典风衣外套', price: 450, image: `${import.meta.env.BASE_URL}clothes/item1.jpg`, badge: '人气爆款' },
+  { id: '2', name: '优雅针织衫', price: 500, image: `${import.meta.env.BASE_URL}clothes/item2.jpg`, badge: '热销TOP1' },
+  { id: '3', name: '时尚休闲套装', price: 550, image: `${import.meta.env.BASE_URL}clothes/item3.jpg`, badge: '限量发售' },
 ];
 
 export default function HomePage() {
