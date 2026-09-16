@@ -12,8 +12,8 @@ export default function StoryPage() {
             品牌故事
           </h1>
           <p className="text-white/60 max-w-2xl mx-auto leading-relaxed">
-            Bobby Fashion 的旅程始于2015年，源于对时尚的热爱与追求。
-            我们相信，真正的时尚是一种生活态度，是对美的不懈追求。
+            欧蜜儿的旅程始于2009年的广州，源于对时尚的热爱与追求。
+            17年来，我们相信真正的时尚是一种生活态度，是对美的不懈追求。
           </p>
         </div>
 
@@ -34,9 +34,9 @@ export default function StoryPage() {
           </div>
           <div className="text-center p-8 border border-white/10">
             <p className="font-display text-5xl text-bobby-gold mb-4">03</p>
-            <h3 className="font-display text-xl text-white mb-4">全球视野</h3>
+            <h3 className="font-display text-xl text-white mb-4">用心服务</h3>
             <p className="text-white/60 text-sm leading-relaxed">
-              立足中国，面向世界，打造国际化时尚品牌
+              扎根广州万佳批发市场，17年如一日，服务好每一位顾客
             </p>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function StoryPage() {
                 展望未来
               </h2>
               <p className="text-white/70 max-w-2xl mx-auto">
-                我们将继续创新，引领时尚潮流，为全球消费者带来更多惊喜
+                我们将继续深耕品质女装，以更美的款式、更实在的价格，回报每一位顾客的信赖
               </p>
             </div>
           </div>

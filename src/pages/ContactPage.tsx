@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, Clock, Send } from 'lucide-react';
 import { stores } from '../data/mockData';
 
 export default function ContactPage() {
@@ -51,32 +51,35 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <div className="p-8 border border-white/10">
             <MapPin className="w-8 h-8 text-bobby-gold mb-6" />
-            <h3 className="font-display text-xl text-white mb-4">门店查询</h3>
+            <h3 className="font-display text-xl text-white mb-4">门店地址</h3>
             <p className="text-white/60 text-sm">
-              查找离您最近的 Bobby Fashion 门店，亲身体验我们的产品
+              欢迎到欧蜜儿门店试穿选购，亲身体验我们的产品
             </p>
+            <p className="text-bobby-gold mt-2">广州万佳批发市场2街</p>
           </div>
           <div className="p-8 border border-white/10">
             <Phone className="w-8 h-8 text-bobby-gold mb-6" />
-            <h3 className="font-display text-xl text-white mb-4">客服热线</h3>
+            <h3 className="font-display text-xl text-white mb-4">联系电话</h3>
             <p className="text-white/60 text-sm">
-              周一至周日 9:00-21:00
+              周一至周日 9:00-18:00
             </p>
-            <p className="text-bobby-gold mt-2">+86 400-888-8888</p>
+            <a href="tel:17373353281" className="text-bobby-gold mt-2 inline-block hover:underline">
+              　17373353281
+            </a>
           </div>
           <div className="p-8 border border-white/10">
-            <Mail className="w-8 h-8 text-bobby-gold mb-6" />
-            <h3 className="font-display text-xl text-white mb-4">电子邮件</h3>
+            <MessageCircle className="w-8 h-8 text-bobby-gold mb-6" />
+            <h3 className="font-display text-xl text-white mb-4">微信咨询</h3>
             <p className="text-white/60 text-sm">
-              商务合作、媒体咨询等
+              产品咨询、下单合作，随时联系
             </p>
-            <p className="text-bobby-gold mt-2">contact@bobbyfashion.com</p>
+            <p className="text-bobby-gold mt-2">ACY829</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div>
-            <h2 className="font-display text-2xl text-white mb-8">全球门店</h2>
+            <h2 className="font-display text-2xl text-white mb-8">门店信息</h2>
             <div className="space-y-6">
               {stores.map((store) => (
                 <div

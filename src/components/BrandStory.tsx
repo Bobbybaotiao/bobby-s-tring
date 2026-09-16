@@ -28,33 +28,32 @@ export default function BrandStory() {
             </h2>
             <div className="space-y-6 text-white/70">
               <p className="leading-relaxed">
-                Bobby Fashion 创立于2015年，源自对时尚的热爱与追求。我们相信，
+                欧蜜儿创立于2009年，源自对时尚的热爱与追求。我们相信，
                 真正的时尚不仅仅是外表的华丽，更是内在气质的彰显。
               </p>
               <p className="leading-relaxed">
-                每一件作品都凝聚着设计师的心血与灵感，从选材到剪裁，从细节到整体，
-                我们始终坚持高标准、严要求，只为呈现最完美的时尚体验。
+                17年来，我们扎根广州万佳批发市场2街，从选材到剪裁，从细节到整体，
+                始终坚持高标准、严要求，只为呈现最完美的时尚体验。
               </p>
               <p className="leading-relaxed">
-                如今，Bobby Fashion已成为享誉全球的时尚品牌，
-                销售网络覆盖中国所有城市以及韩国、西亚等地，
-                为全球消费者带来精致优雅的服饰选择。
+                欧蜜儿专注品质女装，以实在的价格和贴心的服务，
+                赢得了一批又一批顾客的信赖与回头。
               </p>
             </div>
             <div className="mt-10 flex items-center gap-8">
               <div>
-                <p className="font-display text-4xl text-bobby-gold">50+</p>
-                <p className="text-white/50 text-sm">全球城市</p>
+                <p className="font-display text-4xl text-bobby-gold">17年</p>
+                <p className="text-white/50 text-sm">品牌沉淀</p>
               </div>
               <div className="w-px h-12 bg-white/20" />
               <div>
-                <p className="font-display text-4xl text-bobby-gold">500K+</p>
-                <p className="text-white/50 text-sm">忠实顾客</p>
+                <p className="font-display text-4xl text-bobby-gold">10000+</p>
+                <p className="text-white/50 text-sm">累计顾客</p>
               </div>
               <div className="w-px h-12 bg-white/20" />
               <div>
-                <p className="font-display text-4xl text-bobby-gold">50+</p>
-                <p className="text-white/50 text-sm">设计奖项</p>
+                <p className="font-display text-4xl text-bobby-gold">98%</p>
+                <p className="text-white/50 text-sm">好评回头率</p>
               </div>
             </div>
             <Link

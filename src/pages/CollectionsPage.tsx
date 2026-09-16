@@ -4,7 +4,7 @@ import ProductCard from '../components/ProductCard';
 import { products } from '../data/mockData';
 import type { Product } from '../data/mockData';
 
-type Category = 'women' | 'men' | 'accessories';
+type Category = 'women' | 'accessories';
 
 export default function CollectionsPage() {
   const [activeCategory, setActiveCategory] = useState<Category>('women');
@@ -15,7 +15,6 @@ export default function CollectionsPage() {
 
   const categoryNames = {
     women: '女装系列',
-    men: '男装系列',
     accessories: '配饰系列',
   };
 

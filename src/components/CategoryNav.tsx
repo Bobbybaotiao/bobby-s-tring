@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Shirt, Briefcase, Watch } from 'lucide-react';
+import { Shirt, Watch } from 'lucide-react';
 
-type Category = 'women' | 'men' | 'accessories';
+type Category = 'women' | 'accessories';
 
 interface CategoryNavProps {
   activeCategory: Category;
@@ -10,7 +10,6 @@ interface CategoryNavProps {
 
 const categories = [
   { id: 'women' as Category, name: '女装', icon: Shirt },
-  { id: 'men' as Category, name: '男装', icon: Briefcase },
   { id: 'accessories' as Category, name: '配饰', icon: Watch },
 ];
 

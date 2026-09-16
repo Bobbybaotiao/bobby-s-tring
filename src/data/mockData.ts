@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  category: 'women' | 'men' | 'accessories';
+  category: 'women' | 'accessories';
   collection: string;
   imageUrl: string;
 }
@@ -61,33 +61,6 @@ export const products: Product[] = [
     imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=white%20silk%20blouse%20elegant%20fashion%20photography&image_size=portrait_4_3'
   },
   {
-    id: '4',
-    name: '修身西装',
-    description: '精致剪裁的黑色修身西装',
-    price: 3499,
-    category: 'men',
-    collection: 'Autumn/Winter 2024',
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=black%20tailored%20suit%20men%20fashion%20photography%20elegant&image_size=portrait_4_3'
-  },
-  {
-    id: '5',
-    name: '羊毛毛衣',
-    description: '高品质纯羊毛针织毛衣',
-    price: 1899,
-    category: 'men',
-    collection: 'Autumn/Winter 2024',
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=men%20wool%20knit%20sweater%20fashion%20photography%20minimalist&image_size=portrait_4_3'
-  },
-  {
-    id: '6',
-    name: '休闲皮鞋',
-    description: '意大利手工制作休闲皮鞋',
-    price: 2499,
-    category: 'men',
-    collection: 'Spring/Summer 2024',
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Italian%20leather%20casual%20shoes%20men%20fashion%20photography&image_size=portrait_4_3'
-  },
-  {
     id: '7',
     name: '真皮手袋',
     description: '精致真皮手提包，彰显品味',
@@ -136,90 +109,45 @@ export const collections: Collection[] = [
 export const stores: Store[] = [
   {
     id: '1',
-    name: '北京旗舰店',
+    name: '欧蜜儿（万佳批发市场店）',
     country: '中国',
-    city: '北京',
-    address: '北京市朝阳区三里屯太古里北区N3-28',
-    latitude: 39.9391,
-    longitude: 116.4490
-  },
-  {
-    id: '2',
-    name: '上海精品店',
-    country: '中国',
-    city: '上海',
-    address: '上海市黄浦区淮海中路999号环贸iapm商场L1层',
-    latitude: 31.2304,
-    longitude: 121.4737
-  },
-  {
-    id: '3',
-    name: '首尔专卖店',
-    country: '韩国',
-    city: '首尔',
-    address: '首尔特别市江南区新沙洞林荫道85-12',
-    latitude: 37.5172,
-    longitude: 127.0473
-  },
-  {
-    id: '4',
-    name: '东京银座店',
-    country: '日本',
-    city: '东京',
-    address: '东京都中央区银座3丁目10-1',
-    latitude: 35.6762,
-    longitude: 139.6503
-  },
-  {
-    id: '5',
-    name: '迪拜购物中心店',
-    country: '阿联酋',
-    city: '迪拜',
-    address: '迪拜购物中心一层，近迪拜水族馆',
-    latitude: 25.2048,
-    longitude: 55.2708
-  },
-  {
-    id: '6',
-    name: '伦敦邦德街店',
-    country: '英国',
-    city: '伦敦',
-    address: '伦敦邦德街28号',
-    latitude: 51.5133,
-    longitude: -0.1423
+    city: '广州',
+    address: '广州市万佳批发市场2街',
+    latitude: 23.1291,
+    longitude: 113.2644
   }
 ];
 
 export const timelineEvents: TimelineEvent[] = [
   {
-    year: '2015',
+    year: '2009',
     title: '品牌创立',
-    description: 'Bobby Fashion在上海创立，开启时尚之旅'
+    description: '欧蜜儿在广州创立，开启时尚女装之旅'
   },
   {
-    year: '2017',
-    title: '首次亮相时装周',
-    description: '受邀参加上海时装周，发布首个秋冬系列'
+    year: '2012',
+    title: '扎根万佳',
+    description: '门店入驻广州万佳批发市场2街，用心经营每一位顾客'
+  },
+  {
+    year: '2015',
+    title: '口碑成长',
+    description: '凭借优质款式与实在价格，积累大批回头客'
   },
   {
     year: '2019',
-    title: '拓展国际市场',
-    description: '进军韩国市场，开设首尔旗舰店'
+    title: '品类升级',
+    description: '建立稳定供应链，女装与配饰品类全面丰富'
   },
   {
-    year: '2021',
-    title: '数字化转型',
-    description: '推出线上商城，实现全渠道销售'
+    year: '2022',
+    title: '线上拓展',
+    description: '开通微信咨询与线上订购渠道，服务更多顾客'
   },
   {
-    year: '2023',
-    title: '全球布局',
-    description: '入驻西亚市场，迪拜门店盛大开业'
-  },
-  {
-    year: '2024',
-    title: '品牌升级',
-    description: '全新品牌形象发布，开启时尚新篇章'
+    year: '2026',
+    title: '品牌焕新',
+    description: '全新品牌形象上线，17年坚守，继续专注品质女装'
   }
 ];
 
@@ -238,8 +166,8 @@ export const heroSlides = [
   },
   {
     id: '3',
-    title: 'Global Style',
-    subtitle: '连接世界时尚',
-    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=international%20fashion%20models%20diverse%20styles%20luxury%20brand%20campaign&image_size=landscape_16_9'
+    title: 'Since 2009',
+    subtitle: '十七年专注品质女装',
+    imageUrl: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20women%20fashion%20clothing%20boutique%20warm%20lighting%20luxury%20style&image_size=landscape_16_9'
   }
 ];
