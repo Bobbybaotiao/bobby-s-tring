@@ -9,7 +9,7 @@ import ContactPage from './pages/ContactPage';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.PROD ? '/bobby-s-tring' : '/'}>
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
