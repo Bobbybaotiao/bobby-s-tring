@@ -1,0 +1,11 @@
+node_modules
+dist
+*.local
+.env
+.DS_Store
+node-v24.18.0-win-x64
+node-v24.18.0-win-x64.zip
+*.log
+PortableGit.exe
+git/
+.trae/
