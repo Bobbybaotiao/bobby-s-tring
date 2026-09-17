@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Flame, ShoppingBag, Heart, Share2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { hotItems } from '../data/mockData';
+import { useCart } from '../context/CartContext';
 import CustomFieldsDisplay from '../components/CustomFieldsDisplay';
 
 export default function HotItemsPage() {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [addedItems, setAddedItems] = useState<Set<string>>(new Set());
+  const { addItem } = useCart();
 
   const toggleLike = (id: string) => {
     setLikedItems((prev) => {
@@ -21,6 +23,14 @@ export default function HotItemsPage() {
   };
 
   const addToCart = (id: string) => {
+    const item = hotItems.find((i) => i.id === id);
+    if (!item) return;
+    addItem({
+      key: `hot-${item.id}-${item.name}`,
+      name: item.name,
+      price: item.price,
+      imageUrl: item.imageUrl,
+    });
     setAddedItems((prev) => new Set(prev).add(id));
     setTimeout(() => {
       setAddedItems((prev) => {

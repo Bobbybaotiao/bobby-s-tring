@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { siteConfig } from '../data/mockData';
+import { useCart } from '../context/CartContext';
 import SearchBar from './SearchBar';
 
 const navItems = [
@@ -16,6 +17,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { totalCount, openCart } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,8 +60,17 @@ export default function Header() {
 
         <div className="flex items-center gap-4">
           <SearchBar />
-          <button className="text-white/80 hover:text-bobby-gold transition-colors">
+          <button
+            onClick={openCart}
+            className="relative text-white/80 hover:text-bobby-gold transition-colors"
+            title="购物车"
+          >
             <ShoppingBag className="w-6 h-6" />
+            {totalCount > 0 && (
+              <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] px-1 bg-bobby-gold text-bobby-black text-[11px] font-medium rounded-full flex items-center justify-center leading-none">
+                {totalCount > 99 ? '99+' : totalCount}
+              </span>
+            )}
           </button>
           <button
             className="md:hidden text-white"

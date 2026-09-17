@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import CartDrawer from './components/CartDrawer';
+import { CartProvider } from './context/CartContext';
 import HomePage from './pages/HomePage';
 import HotItemsPage from './pages/HotItemsPage';
 import CollectionsPage from './pages/CollectionsPage';
@@ -62,6 +64,7 @@ function AppContent() {
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
       {!isAdmin && <Footer />}
+      {!isAdmin && <CartDrawer />}
     </>
   );
 }
@@ -71,7 +74,9 @@ function App() {
   const basename = import.meta.env.PROD ? (__IS_VERCEL__ ? '/' : '/bobby-s-tring') : '/';
   return (
     <BrowserRouter basename={basename}>
-      <AppContent />
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
     </BrowserRouter>
   );
 }
