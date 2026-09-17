@@ -20,35 +20,70 @@ export default function ContactPage() {
     setSubmitState('loading');
     setErrorMsg('');
 
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
+    const typeLabel = {
+      customer: '客户咨询',
+      dealer: '经销商合作',
+      media: '媒体采访',
+      other: '其他',
+    }[formData.type] || '客户咨询';
 
-      if (res.ok && data.success) {
+    const content = `【欧蜜儿网站留言】\n\n姓名：${formData.name}\n邮箱：${formData.email}\n电话：${formData.phone || '未填写'}\n公司：${formData.company || '未填写'}\n类型：${typeLabel}\n留言：${formData.message}`;
+
+    const token = siteConfig.pushplusToken;
+
+    try {
+      if (!token) {
+        // 没配置 token，只显示成功（不推送）
         setSubmitState('success');
-        // 3 秒后恢复表单
         setTimeout(() => {
           setSubmitState('idle');
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            company: '',
-            message: '',
-            type: 'customer',
-          });
+          setFormData({ name: '', email: '', phone: '', company: '', message: '', type: 'customer' });
+        }, 3000);
+        return;
+      }
+
+      const body = JSON.stringify({
+        token,
+        title: `欧蜜儿 · ${typeLabel}`,
+        content,
+      });
+
+      // 直接调 PushPlus
+      const sendRequest = async (url: string) => {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body,
+        });
+        return res.json();
+      };
+
+      let result: any;
+      try {
+        result = await sendRequest('https://www.pushplus.plus/send');
+      } catch {
+        // CORS 失败时走代理
+        result = await sendRequest(
+          `https://api.allorigins.win/post?url=${encodeURIComponent('https://www.pushplus.plus/send')}`
+        );
+        // allorigins 返回的内容在 contents 字段里
+        if (result.contents) {
+          result = JSON.parse(result.contents);
+        }
+      }
+
+      if (result.code === 200) {
+        setSubmitState('success');
+        setTimeout(() => {
+          setSubmitState('idle');
+          setFormData({ name: '', email: '', phone: '', company: '', message: '', type: 'customer' });
         }, 3000);
       } else {
-        throw new Error(data.error || '提交失败');
+        throw new Error(result.msg || '推送失败，请确认 Token 是否正确');
       }
     } catch (err) {
       setSubmitState('error');
       setErrorMsg((err as Error).message || '网络异常，请稍后重试');
-      // 5 秒后自动清除错误
       setTimeout(() => setSubmitState('idle'), 5000);
     }
   };

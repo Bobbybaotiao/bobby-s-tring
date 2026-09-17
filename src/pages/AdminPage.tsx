@@ -48,6 +48,7 @@ type Content = {
     footerIntro: string;
     storeIntro: string;
     contactIntro: string;
+    pushplusToken: string;
   };
   heroSlides: Array<{ title: string; subtitle: string; image: string }>;
   hotItems: Array<{
@@ -561,6 +562,12 @@ export default function AdminPage() {
               <TextareaField label="页脚品牌简介" value={content.siteConfig.footerIntro} onChange={(v) => updateField('siteConfig', 'footerIntro', v)} />
               <TextareaField label="首页门店区块介绍" value={content.siteConfig.storeIntro} onChange={(v) => updateField('siteConfig', 'storeIntro', v)} />
               <TextareaField label="联系页顶部说明" value={content.siteConfig.contactIntro} onChange={(v) => updateField('siteConfig', 'contactIntro', v)} />
+
+              <TextField
+                label="PushPlus Token（微信推送令牌，留空则表单不推送）"
+                value={content.siteConfig.pushplusToken}
+                onChange={(v) => updateField('siteConfig', 'pushplusToken', v)}
+              />
 
               <CustomFieldsBlock
                 sectionId="siteConfig"
