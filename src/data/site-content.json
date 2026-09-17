@@ -1,0 +1,157 @@
+{
+  "siteConfig": {
+    "brandName": "欧蜜儿",
+    "foundedYear": 2009,
+    "wechat": "ACY829",
+    "phone": "17373353281",
+    "address": "广州万佳批发市场2街",
+    "city": "广州",
+    "hours": "周一至周日 9:00 - 18:00",
+    "footerIntro": "扎根广州17年的时尚女装品牌，专注品质女装，用心服务每一位顾客。",
+    "storeIntro": "欧蜜儿门店位于广州万佳批发市场，17年实体经营，欢迎您到店试穿选购，我们将为您提供贴心的一对一服务。",
+    "contactIntro": "无论您是想了解产品、寻找门店，还是洽谈合作，我们都期待与您取得联系"
+  },
+  "heroSlides": [
+    {
+      "title": "Autumn/Winter 2024",
+      "subtitle": "探索冬日优雅",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=high%20fashion%20model%20wearing%20elegant%20winter%20coat%20dark%20background%20studio%20lighting&image_size=landscape_16_9"
+    },
+    {
+      "title": "Spring/Summer 2024",
+      "subtitle": "感受春日轻盈",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=high%20fashion%20model%20wearing%20light%20spring%20dress%20soft%20lighting%20elegant&image_size=landscape_16_9"
+    },
+    {
+      "title": "Since 2009",
+      "subtitle": "十七年专注品质女装",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20women%20fashion%20clothing%20boutique%20warm%20lighting%20luxury%20style&image_size=landscape_16_9"
+    }
+  ],
+  "hotItems": [
+    {
+      "name": "经典风衣外套",
+      "price": 450,
+      "originalPrice": 680,
+      "description": "精选优质面料，剪裁利落，经典风衣版型，适合多种场合穿着。细节考究，彰显品质生活。",
+      "image": "item1.jpg",
+      "badge": "人气爆款",
+      "features": ["优质面料", "经典版型", "多色可选", "四季可穿"],
+      "soldCount": 1280,
+      "rating": 4.9,
+      "showOnHome": true
+    },
+    {
+      "name": "优雅针织衫",
+      "price": 500,
+      "originalPrice": 750,
+      "description": "柔软舒适的针织面料，简约设计风格，修饰身形，百搭单品，轻松搭配各种造型。",
+      "image": "item2.jpg",
+      "badge": "热销TOP1",
+      "features": ["柔软亲肤", "修身剪裁", "百搭单品", "透气舒适"],
+      "soldCount": 2156,
+      "rating": 4.8,
+      "showOnHome": true
+    },
+    {
+      "name": "时尚休闲套装",
+      "price": 550,
+      "originalPrice": 820,
+      "description": "一套搞定日常穿搭，面料挺括有型，休闲与时尚的完美结合，街头潮流必备之选。",
+      "image": "item3.jpg",
+      "badge": "限量发售",
+      "features": ["套装组合", "挺括有型", "潮流设计", "舒适自在"],
+      "soldCount": 893,
+      "rating": 4.7,
+      "showOnHome": true
+    }
+  ],
+  "homeStory": {
+    "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=fashion%20designer%20studio%20elegant%20minimalist%20workspace%20creative&image_size=portrait_4_3",
+    "eyebrow": "Our Story",
+    "titleLine1": "匠心独运",
+    "titleLine2": "引领时尚",
+    "paragraphs": [
+      "欧蜜儿创立于2009年，源自对时尚的热爱与追求。我们相信，真正的时尚不仅仅是外表的华丽，更是内在气质的彰显。",
+      "17年来，我们扎根广州万佳批发市场2街，从选材到剪裁，从细节到整体，始终坚持高标准、严要求，只为呈现最完美的时尚体验。",
+      "欧蜜儿专注品质女装，以实在的价格和贴心的服务，赢得了一批又一批顾客的信赖与回头。"
+    ],
+    "stats": [
+      { "value": "17年", "label": "品牌沉淀" },
+      { "value": "10000+", "label": "累计顾客" },
+      { "value": "98%", "label": "好评回头率" }
+    ]
+  },
+  "products": [
+    {
+      "name": "丝绒长裙",
+      "description": "优雅的黑色丝绒长裙，展现女性柔美气质",
+      "price": 2999,
+      "category": "女装",
+      "series": "2024 秋冬系列",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20black%20velvet%20long%20dress%20fashion%20photography%20studio%20lighting&image_size=portrait_4_3"
+    },
+    {
+      "name": "羊绒大衣",
+      "description": "经典驼色羊绒大衣，温暖与时尚并存",
+      "price": 5999,
+      "category": "女装",
+      "series": "2024 秋冬系列",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=classic%20camel%20cashmere%20coat%20fashion%20photography%20minimalist&image_size=portrait_4_3"
+    },
+    {
+      "name": "真丝衬衫",
+      "description": "简约白色真丝衬衫，百搭单品",
+      "price": 1299,
+      "category": "女装",
+      "series": "2024 春夏系列",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=white%20silk%20blouse%20elegant%20fashion%20photography&image_size=portrait_4_3"
+    },
+    {
+      "name": "真皮手袋",
+      "description": "精致真皮手提包，彰显品味",
+      "price": 4599,
+      "category": "配饰",
+      "series": "2024 秋冬系列",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=luxury%20leather%20handbag%20fashion%20accessory%20photography&image_size=portrait_4_3"
+    },
+    {
+      "name": "时尚围巾",
+      "description": "纯羊绒时尚围巾",
+      "price": 1299,
+      "category": "配饰",
+      "series": "2024 秋冬系列",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cashmere%20fashion%20scarf%20accessory%20photography%20elegant&image_size=portrait_4_3"
+    },
+    {
+      "name": "精致腕表",
+      "description": "瑞士机芯精致腕表",
+      "price": 8999,
+      "category": "配饰",
+      "series": "2024 春夏系列",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=luxury%20swiss%20watch%20fashion%20accessory%20photography&image_size=portrait_4_3"
+    }
+  ],
+  "timelineEvents": [
+    { "year": "2009", "title": "品牌创立", "description": "欧蜜儿在广州创立，开启时尚女装之旅" },
+    { "year": "2012", "title": "扎根万佳", "description": "门店入驻广州万佳批发市场2街，用心经营每一位顾客" },
+    { "year": "2015", "title": "口碑成长", "description": "凭借优质款式与实在价格，积累大批回头客" },
+    { "year": "2019", "title": "品类升级", "description": "建立稳定供应链，女装与配饰品类全面丰富" },
+    { "year": "2022", "title": "线上拓展", "description": "开通微信咨询与线上订购渠道，服务更多顾客" },
+    { "year": "2026", "title": "品牌焕新", "description": "全新品牌形象上线，17年坚守，继续专注品质女装" }
+  ],
+  "storyPage": {
+    "intro": [
+      "欧蜜儿的旅程始于2009年的广州，源于对时尚的热爱与追求。",
+      "17年来，我们相信真正的时尚是一种生活态度，是对美的不懈追求。"
+    ],
+    "values": [
+      { "title": "设计理念", "text": "融合东方美学与西方设计，创造独特的时尚风格" },
+      { "title": "品质承诺", "text": "精选顶级面料，精湛工艺，只为呈现最完美的品质" },
+      { "title": "用心服务", "text": "扎根广州万佳批发市场，17年如一日，服务好每一位顾客" }
+    ],
+    "futureImage": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=fashion%20runway%20show%20elegant%20models%20professional%20lighting%20luxury%20brand&image_size=landscape_16_9",
+    "futureTitle": "展望未来",
+    "futureText": "我们将继续深耕品质女装，以更美的款式、更实在的价格，回报每一位顾客的信赖"
+  }
+}
