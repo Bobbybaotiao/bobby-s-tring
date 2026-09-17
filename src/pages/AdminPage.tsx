@@ -1014,7 +1014,7 @@ function ItemCard({
         </span>
         <h3 className="font-medium text-gray-900 flex-1 truncate">{title}</h3>
         {imagePreview && (
-          <img src={imagePreview} alt="" className="w-12 h-12 object-cover rounded border border-gray-300" />
+          <img src={resolveImage(imagePreview)} alt="" className="w-12 h-12 object-cover rounded border border-gray-300" onError={(e) => { (e.target as HTMLImageElement).style.opacity = '0.3'; }} />
         )}
         <button onClick={onRemove} className="text-red-500 hover:bg-red-100 p-2 rounded" title="删除">
           <Trash2 className="w-4 h-4" />
