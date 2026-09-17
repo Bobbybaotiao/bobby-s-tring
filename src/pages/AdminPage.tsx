@@ -13,8 +13,8 @@
  *
  * ==================================================================== */
 
-import { useState, useEffect, useCallback } from 'react';
-import { Lock, Save, Plus, Trash2, LogOut, ExternalLink, Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { Lock, Save, Plus, Trash2, LogOut, ExternalLink, Loader2, XCircle, Upload } from 'lucide-react';
 
 const REPO_OWNER = 'Bobbybaotiao';
 const REPO_NAME = 'bobby-s-tring';
@@ -346,6 +346,81 @@ export default function AdminPage() {
     });
   };
 
+  /* ---- 图片上传 ---- */
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+  const [uploadedName, setUploadedName] = useState('');
+
+  const uploadImage = async (file: File): Promise<string> => {
+    if (!token) {
+      setUploadError('未登录，无法上传');
+      throw new Error('未登录');
+    }
+    setUploading(true);
+    setUploadError('');
+    setUploadedName('');
+    try {
+      const reader = new FileReader();
+      const base64: string = await new Promise((resolve, reject) => {
+        reader.onload = () => resolve((reader.result as string).split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      // 生成唯一文件名：时间戳 + 原始扩展名
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const stamp = new Date()
+        .toISOString()
+        .replace(/[:.]/g, '-')
+        .replace('T', '_')
+        .slice(0, 19);
+      const filename = `${stamp}.${ext}`;
+      const path = `public/images/${filename}`;
+
+      // 先检查文件是否已存在（获取 sha）
+      let sha: string | null = null;
+      try {
+        const check = await fetch(
+          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (check.ok) {
+          const existing = await check.json();
+          sha = existing.sha;
+        }
+      } catch { /* 文件不存在是正常的 */ }
+
+      // PUT 上传
+      const res = await fetch(
+        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: `上传图片 ${filename}（通过后台）`,
+            content: base64,
+            sha,
+            branch: 'main',
+          }),
+        }
+      );
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `HTTP ${res.status}`);
+      }
+      setUploadedName(filename);
+      return filename;
+    } catch (e) {
+      setUploadError((e as Error).message);
+      throw e;
+    } finally {
+      setUploading(false);
+      setTimeout(() => setUploadedName(''), 3000);
+    }
+  };
+
   /* ---- 通用自定义字段（每个分区都有一组，key-value） ---- */
   const getCustomFields = (section: string) =>
     content.sectionCustomFields[section] || [];
@@ -514,7 +589,7 @@ export default function AdminPage() {
                 >
                   <TextField label="大标题" value={slide.title} onChange={(v) => updateListItem('heroSlides', i, { title: v })} />
                   <TextField label="小标题" value={slide.subtitle} onChange={(v) => updateListItem('heroSlides', i, { subtitle: v })} />
-                  <ImageField label="图片地址" value={slide.image} onChange={(v) => updateListItem('heroSlides', i, { image: v })} />
+                  <ImageField label="图片地址" value={slide.image} onChange={(v) => updateListItem('heroSlides', i, { image: v })} onUpload={uploadImage} uploading={uploading} uploadError={uploadError} />
                 </ItemCard>
               ))}
               <AddButton label="添加一张大图" onClick={() => addListItem('heroSlides', { title: '新大标题', subtitle: '新小标题', image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20fashion%20model&image_size=landscape_16_9' })} />
@@ -546,7 +621,7 @@ export default function AdminPage() {
                     <NumberField label="原价（数字）" value={item.originalPrice} onChange={(v) => updateListItem('hotItems', i, { originalPrice: v })} />
                   </div>
                   <TextareaField label="商品描述" value={item.description} onChange={(v) => updateListItem('hotItems', i, { description: v })} />
-                  <ImageField label="图片地址（网址或 images 文件夹里的文件名）" value={item.image} onChange={(v) => updateListItem('hotItems', i, { image: v })} />
+                  <ImageField label="图片地址（网址或 images 文件夹里的文件名）" value={item.image} onChange={(v) => updateListItem('hotItems', i, { image: v })} onUpload={uploadImage} uploading={uploading} uploadError={uploadError} />
                   <TextField label="角标文字（如「人气爆款」）" value={item.badge} onChange={(v) => updateListItem('hotItems', i, { badge: v })} />
                   <div className="grid grid-cols-2 gap-3">
                     <NumberField label="已售数量" value={item.soldCount} onChange={(v) => updateListItem('hotItems', i, { soldCount: v })} />
@@ -626,7 +701,7 @@ export default function AdminPage() {
 
           {activeSection === 'homeStory' && (
             <SectionCard title="首页品牌故事区块" desc="首页品牌故事区的图片、标题、正文、数据">
-              <ImageField label="配图地址" value={content.homeStory.image} onChange={(v) => updateField('homeStory', 'image', v)} />
+              <ImageField label="配图地址" value={content.homeStory.image} onChange={(v) => updateField('homeStory', 'image', v)} onUpload={uploadImage} uploading={uploading} uploadError={uploadError} />
               <TextField label="图片旁小英文" value={content.homeStory.eyebrow} onChange={(v) => updateField('homeStory', 'eyebrow', v)} />
               <TextField label="大标题第一行" value={content.homeStory.titleLine1} onChange={(v) => updateField('homeStory', 'titleLine1', v)} />
               <TextField label="大标题第二行（金色字）" value={content.homeStory.titleLine2} onChange={(v) => updateField('homeStory', 'titleLine2', v)} />
@@ -705,7 +780,7 @@ export default function AdminPage() {
                     </select>
                   </div>
                   <TextField label="系列（如「2024 秋冬系列」）" value={p.series} onChange={(v) => updateListItem('products', i, { series: v })} />
-                  <ImageField label="图片地址" value={p.image} onChange={(v) => updateListItem('products', i, { image: v })} />
+                  <ImageField label="图片地址" value={p.image} onChange={(v) => updateListItem('products', i, { image: v })} onUpload={uploadImage} uploading={uploading} uploadError={uploadError} />
                 </ItemCard>
               ))}
               <AddButton
@@ -797,7 +872,7 @@ export default function AdminPage() {
               </div>
 
               <div className="border-t border-gray-200 pt-3 mt-3">
-                <ImageField label="底部大图地址" value={content.storyPage.futureImage} onChange={(v) => updateField('storyPage', 'futureImage', v)} />
+                <ImageField label="底部大图地址" value={content.storyPage.futureImage} onChange={(v) => updateField('storyPage', 'futureImage', v)} onUpload={uploadImage} uploading={uploading} uploadError={uploadError} />
                 <TextField label="底部标题" value={content.storyPage.futureTitle} onChange={(v) => updateField('storyPage', 'futureTitle', v)} />
                 <TextareaField label="底部正文" value={content.storyPage.futureText} onChange={(v) => updateField('storyPage', 'futureText', v)} />
               </div>
@@ -955,12 +1030,24 @@ function TextField({ label, value, onChange }: { label: string; value: string; o
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
-      />
+      <div className="relative">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full px-3 py-2 pr-9 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
+        />
+        {value && (
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 p-1"
+            title="清空"
+          >
+            <XCircle className="w-4 h-4" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
@@ -969,43 +1056,119 @@ function TextareaField({ label, value, onChange }: { label: string; value: strin
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        rows={3}
-        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none resize-y"
-      />
+      <div className="relative">
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          rows={3}
+          className="w-full px-3 py-2 pr-9 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none resize-y"
+        />
+        {value && (
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="absolute right-2 top-2 text-gray-400 hover:text-red-500 p-1"
+            title="清空"
+          >
+            <XCircle className="w-4 h-4" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
 
 function NumberField({ label, value, onChange, step }: { label: string; value: number; onChange: (v: number) => void; step?: string }) {
+  const hasValue = value !== null && value !== undefined && !Number.isNaN(value) && value !== 0;
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-      <input
-        type="number"
-        value={Number.isNaN(value) ? 0 : value}
-        step={step}
-        onChange={(e) => onChange(e.target.value === '' ? 0 : Number(e.target.value))}
-        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
-      />
+      <div className="relative">
+        <input
+          type="number"
+          value={Number.isNaN(value) ? 0 : value}
+          step={step}
+          onChange={(e) => onChange(e.target.value === '' ? 0 : Number(e.target.value))}
+          className="w-full px-3 py-2 pr-9 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
+        />
+        {hasValue && (
+          <button
+            type="button"
+            onClick={() => onChange(0)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 p-1"
+            title="清零"
+          >
+            <XCircle className="w-4 h-4" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
 
-function ImageField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function ImageField({
+  label,
+  value,
+  onChange,
+  onUpload,
+  uploading,
+  uploadError,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  onUpload?: (file: File) => Promise<string>;
+  uploading?: boolean;
+  uploadError?: string;
+}) {
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (f && onUpload) {
+      try {
+        const filename = await onUpload(f);
+        onChange(filename);
+      } catch { /* 错误已在 uploadError 显示 */ }
+      e.target.value = '';
+    }
+  };
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-      <div className="flex items-start gap-3">
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="可填 https:// 开头的网址，或 images 文件夹里的文件名"
-          className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
-        />
+      <div className="flex items-start gap-2">
+        <div className="relative flex-1">
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="可填 https:// 开头的网址，或 images 文件夹里的文件名"
+            className="w-full px-3 py-2 pr-9 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
+          />
+          {value && (
+            <button
+              type="button"
+              onClick={() => onChange('')}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 p-1"
+              title="清空"
+            >
+              <XCircle className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+        {onUpload && (
+          <>
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              disabled={uploading}
+              className="px-3 py-2 bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white rounded text-sm whitespace-nowrap inline-flex items-center gap-1"
+            >
+              {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+              {uploading ? '上传中' : '上传'}
+            </button>
+            <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
+          </>
+        )}
         {value && (
           <img
             src={value}
@@ -1017,8 +1180,11 @@ function ImageField({ label, value, onChange }: { label: string; value: string; 
           />
         )}
       </div>
+      {uploadError && (
+        <p className="text-xs text-red-600 mt-1">上传失败：{uploadError}</p>
+      )}
       <p className="text-xs text-gray-400 mt-1">
-        提示：上传新图片请到 GitHub 的 public/images 文件夹上传，再把文件名填到这里
+        点「上传」可直接选本地图片，上传后自动填入文件名；或手动填网址 / images 文件夹文件名
       </p>
     </div>
   );
