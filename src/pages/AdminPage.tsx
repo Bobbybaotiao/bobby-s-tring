@@ -48,6 +48,7 @@ type Content = {
     footerIntro: string;
     storeIntro: string;
     contactIntro: string;
+    customFields: Array<{ key: string; value: string }>;
   };
   heroSlides: Array<{ title: string; subtitle: string; image: string }>;
   hotItems: Array<{
@@ -344,6 +345,30 @@ export default function AdminPage() {
     });
   };
 
+  /* ---- siteConfig 自定义字段（key-value） ---- */
+  const updateCustomField = (index: number, key: string, value: string) => {
+    setContent((prev) => {
+      if (!prev) return prev;
+      const list = [...prev.siteConfig.customFields];
+      list[index] = { key, value };
+      return { ...prev, siteConfig: { ...prev.siteConfig, customFields: list } };
+    });
+  };
+  const addCustomField = () => {
+    setContent((prev) => {
+      if (!prev) return prev;
+      return { ...prev, siteConfig: { ...prev.siteConfig, customFields: [...prev.siteConfig.customFields, { key: '新字段', value: '新值' }] } };
+    });
+  };
+  const removeCustomField = (index: number) => {
+    setContent((prev) => {
+      if (!prev) return prev;
+      const list = [...prev.siteConfig.customFields];
+      list.splice(index, 1);
+      return { ...prev, siteConfig: { ...prev.siteConfig, customFields: list } };
+    });
+  };
+
   /* ============ 登录界面 ============ */
   if (!authed) {
     return <LoginScreen onSuccess={(tok) => {
@@ -452,6 +477,43 @@ export default function AdminPage() {
               <TextareaField label="页脚品牌简介" value={content.siteConfig.footerIntro} onChange={(v) => updateField('siteConfig', 'footerIntro', v)} />
               <TextareaField label="首页门店区块介绍" value={content.siteConfig.storeIntro} onChange={(v) => updateField('siteConfig', 'storeIntro', v)} />
               <TextareaField label="联系页顶部说明" value={content.siteConfig.contactIntro} onChange={(v) => updateField('siteConfig', 'contactIntro', v)} />
+
+              <div className="border-t border-gray-200 pt-3 mt-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div>
+                    <p className="text-sm font-medium text-gray-700">自定义字段</p>
+                    <p className="text-xs text-gray-400">想加什么就加什么（比如第二个电话、第二个微信号），保存后这里的数据会存到网站内容里。注：自定义字段不会自动显示在网页上，如果需要让网页用到请告诉我。</p>
+                  </div>
+                  <button onClick={addCustomField} className="text-xs bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded inline-flex items-center gap-1">
+                    <Plus className="w-3 h-3" />
+                    添加
+                  </button>
+                </div>
+                {content.siteConfig.customFields.length === 0 && (
+                  <p className="text-xs text-gray-400 italic">还没有自定义字段，点上面「添加」开始</p>
+                )}
+                {content.siteConfig.customFields.map((f, i) => (
+                  <div key={i} className="grid grid-cols-[140px_1fr_auto] gap-2 mb-2">
+                    <input
+                      type="text"
+                      placeholder="字段名"
+                      value={f.key}
+                      onChange={(e) => updateCustomField(i, e.target.value, f.value)}
+                      className="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      placeholder="字段值"
+                      value={f.value}
+                      onChange={(e) => updateCustomField(i, f.key, e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
+                    />
+                    <button onClick={() => removeCustomField(i)} className="text-red-500 hover:bg-red-50 p-2 rounded">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
             </SectionCard>
           )}
 
@@ -508,7 +570,7 @@ export default function AdminPage() {
                             arr[j] = e.target.value;
                             updateListItem('hotItems', i, { features: arr });
                           }}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none"
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
                         />
                         <button
                           onClick={() => {
@@ -574,7 +636,7 @@ export default function AdminPage() {
                       value={p}
                       onChange={(e) => updateStringArray('homeStory', 'paragraphs', j, e.target.value)}
                       rows={3}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none resize-y"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none resize-y"
                     />
                     <button onClick={() => removeStringArrayItem('homeStory', 'paragraphs', j)} className="text-red-500 hover:bg-red-50 p-2 rounded mt-1">
                       <Trash2 className="w-4 h-4" />
@@ -591,8 +653,8 @@ export default function AdminPage() {
                 <p className="text-sm font-medium text-gray-700 mb-2">数据展示（如「17年」「品牌沉淀」）</p>
                 {content.homeStory.stats.map((s, j) => (
                   <div key={j} className="grid grid-cols-[1fr_1fr_auto] gap-2 mb-2">
-                    <input type="text" placeholder="数值（如 17年）" value={s.value} onChange={(e) => updateNestedArray('homeStory', 'stats', j, 'value', e.target.value)} className="px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none" />
-                    <input type="text" placeholder="说明（如 品牌沉淀）" value={s.label} onChange={(e) => updateNestedArray('homeStory', 'stats', j, 'label', e.target.value)} className="px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none" />
+                    <input type="text" placeholder="数值（如 17年）" value={s.value} onChange={(e) => updateNestedArray('homeStory', 'stats', j, 'value', e.target.value)} className="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none" />
+                    <input type="text" placeholder="说明（如 品牌沉淀）" value={s.label} onChange={(e) => updateNestedArray('homeStory', 'stats', j, 'label', e.target.value)} className="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none" />
                     <button onClick={() => removeNestedArrayItem('homeStory', 'stats', j)} className="text-red-500 hover:bg-red-50 p-2 rounded">
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -624,7 +686,7 @@ export default function AdminPage() {
                     <select
                       value={p.category}
                       onChange={(e) => updateListItem('products', i, { category: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded text-sm bg-white focus:border-amber-500 focus:outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
                     >
                       <option value="女装">女装</option>
                       <option value="配饰">配饰</option>
@@ -671,7 +733,7 @@ export default function AdminPage() {
                       value={p}
                       onChange={(e) => updateStringArray('storyPage', 'intro', j, e.target.value)}
                       rows={3}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none resize-y"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none resize-y"
                     />
                     <button onClick={() => removeStringArrayItem('storyPage', 'intro', j)} className="text-red-500 hover:bg-red-50 p-2 rounded mt-1">
                       <Trash2 className="w-4 h-4" />
@@ -794,7 +856,7 @@ function TextField({ label, value, onChange }: { label: string; value: string; o
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none"
+        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
       />
     </div>
   );
@@ -808,7 +870,7 @@ function TextareaField({ label, value, onChange }: { label: string; value: strin
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={3}
-        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none resize-y"
+        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none resize-y"
       />
     </div>
   );
@@ -823,7 +885,7 @@ function NumberField({ label, value, onChange, step }: { label: string; value: n
         value={Number.isNaN(value) ? 0 : value}
         step={step}
         onChange={(e) => onChange(e.target.value === '' ? 0 : Number(e.target.value))}
-        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none"
+        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
       />
     </div>
   );
@@ -839,7 +901,7 @@ function ImageField({ label, value, onChange }: { label: string; value: string; 
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="可填 https:// 开头的网址，或 images 文件夹里的文件名"
-          className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none"
+          className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
         />
         {value && (
           <img
@@ -923,7 +985,7 @@ function LoginScreen({ onSuccess }: { onSuccess: (token: string) => void }) {
                   onChange={(e) => setPassword(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && submitPassword()}
                   placeholder="请输入管理密码"
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded text-sm focus:border-amber-500 focus:outline-none"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -964,7 +1026,7 @@ function LoginScreen({ onSuccess }: { onSuccess: (token: string) => void }) {
                   value={tokenInput}
                   onChange={(e) => setTokenInput(e.target.value)}
                   placeholder="ghp_xxxxxxxxxxxxxxxxxxxxx"
-                  className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded text-sm font-mono focus:border-amber-500 focus:outline-none"
+                  className="w-full pl-3 pr-10 py-2 border border-gray-300 rounded text-sm font-mono text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
                 />
                 <button
                   type="button"

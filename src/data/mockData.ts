@@ -17,6 +17,9 @@ import content from './site-content.json';
 
 export const siteConfig = content.siteConfig;
 
+// 自定义字段（用户在后台添加的任意 key-value，供组件按需使用）
+export const customFields = content.siteConfig.customFields || [];
+
 export interface Product {
   id: string;
   name: string;
