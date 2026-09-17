@@ -212,12 +212,7 @@
     "futureText": "我们将继续深耕品质女装，以更美的款式、更实在的价格，回报每一位顾客的信赖"
   },
   "sectionCustomFields": {
-    "siteConfig": [
-      {
-        "key": "god",
-        "value": "we are god"
-      }
-    ],
+    "siteConfig": [],
     "heroSlides": [],
     "hotItems": [],
     "homeStory": [],
