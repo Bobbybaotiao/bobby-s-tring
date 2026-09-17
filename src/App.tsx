@@ -67,8 +67,10 @@ function AppContent() {
 }
 
 function App() {
+  // Vercel 部署用根路径；GitHub Pages 用 /bobby-s-tring
+  const basename = import.meta.env.PROD ? (__IS_VERCEL__ ? '/' : '/bobby-s-tring') : '/';
   return (
-    <BrowserRouter basename={import.meta.env.PROD ? '/bobby-s-tring' : '/'}>
+    <BrowserRouter basename={basename}>
       <AppContent />
     </BrowserRouter>
   );

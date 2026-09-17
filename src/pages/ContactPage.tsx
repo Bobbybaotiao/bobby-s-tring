@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Phone, MessageCircle, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, Clock, Send, Loader2 } from 'lucide-react';
 import { stores, siteConfig } from '../data/mockData';
 import CustomFieldsDisplay from '../components/CustomFieldsDisplay';
 
@@ -12,22 +12,45 @@ export default function ContactPage() {
     message: '',
     type: 'customer',
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitState, setSubmitState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: '',
-        type: 'customer',
+    setSubmitState('loading');
+    setErrorMsg('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
-    }, 3000);
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setSubmitState('success');
+        // 3 秒后恢复表单
+        setTimeout(() => {
+          setSubmitState('idle');
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            company: '',
+            message: '',
+            type: 'customer',
+          });
+        }, 3000);
+      } else {
+        throw new Error(data.error || '提交失败');
+      }
+    } catch (err) {
+      setSubmitState('error');
+      setErrorMsg((err as Error).message || '网络异常，请稍后重试');
+      // 5 秒后自动清除错误
+      setTimeout(() => setSubmitState('idle'), 5000);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -108,11 +131,11 @@ export default function ContactPage() {
 
           <div>
             <h2 className="font-display text-2xl text-white mb-8">联系表单</h2>
-            {isSubmitted ? (
+            {submitState === 'success' ? (
               <div className="p-8 border border-bobby-gold/30 bg-bobby-gold/10 text-center">
                 <p className="text-bobby-gold text-lg mb-2">感谢您的留言！</p>
                 <p className="text-white/60 text-sm">
-                  我们会在24小时内与您联系
+                  我们会尽快与您联系
                 </p>
               </div>
             ) : (
@@ -128,7 +151,8 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors"
+                      disabled={submitState === 'loading'}
+                      className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors disabled:opacity-50"
                       placeholder="请输入姓名"
                     />
                   </div>
@@ -142,7 +166,8 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors"
+                      disabled={submitState === 'loading'}
+                      className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors disabled:opacity-50"
                       placeholder="请输入邮箱"
                     />
                   </div>
@@ -157,7 +182,8 @@ export default function ContactPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors"
+                      disabled={submitState === 'loading'}
+                      className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors disabled:opacity-50"
                       placeholder="请输入电话"
                     />
                   </div>
@@ -170,7 +196,8 @@ export default function ContactPage() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors"
+                      disabled={submitState === 'loading'}
+                      className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors disabled:opacity-50"
                       placeholder="请输入公司名称"
                     />
                   </div>
@@ -183,7 +210,8 @@ export default function ContactPage() {
                     name="type"
                     value={formData.type}
                     onChange={handleChange}
-                    className="w-full bg-bobby-black border border-white/20 px-4 py-3 text-white focus:border-bobby-gold focus:outline-none transition-colors appearance-none cursor-pointer"
+                    disabled={submitState === 'loading'}
+                    className="w-full bg-bobby-black border border-white/20 px-4 py-3 text-white focus:border-bobby-gold focus:outline-none transition-colors appearance-none cursor-pointer disabled:opacity-50"
                   >
                     <option value="customer" className="text-black bg-white">客户咨询</option>
                     <option value="dealer" className="text-black bg-white">经销商合作</option>
@@ -201,16 +229,30 @@ export default function ContactPage() {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors resize-none"
+                    disabled={submitState === 'loading'}
+                    className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors resize-none disabled:opacity-50"
                     placeholder="请输入您的留言"
                   />
                 </div>
+                {submitState === 'error' && (
+                  <p className="text-red-400 text-sm">{errorMsg || '提交失败，请稍后重试'}</p>
+                )}
                 <button
                   type="submit"
-                  className="w-full bg-bobby-gold text-bobby-black py-4 text-sm uppercase tracking-widest hover:bg-bobby-gold/90 transition-colors flex items-center justify-center gap-3"
+                  disabled={submitState === 'loading'}
+                  className="w-full bg-bobby-gold text-bobby-black py-4 text-sm uppercase tracking-widest hover:bg-bobby-gold/90 transition-colors flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4" />
-                  提交留言
+                  {submitState === 'loading' ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      提交中...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      提交留言
+                    </>
+                  )}
                 </button>
               </form>
             )}

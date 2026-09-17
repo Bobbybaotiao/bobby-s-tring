@@ -21,8 +21,12 @@ const spaFallback = (): Plugin => ({
 })
 
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/bobby-s-tring/' : '/',
+  // Vercel 部署用根路径 / ；GitHub Pages 用 /bobby-s-tring/
+  base: mode === 'production' ? (process.env.VERCEL ? '/' : '/bobby-s-tring/') : '/',
   plugins: [react(), spaFallback()],
+  define: {
+    __IS_VERCEL__: JSON.stringify(!!process.env.VERCEL),
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
