@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { siteConfig } from '../data/mockData';
 
 const navItems = [
   { name: '首页', path: '/' },
@@ -34,7 +35,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <h1 className="font-display text-2xl md:text-3xl text-gradient-gold tracking-wider">
-            欧蜜儿
+            {siteConfig.brandName}
           </h1>
         </Link>
 

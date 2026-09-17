@@ -1,5 +1,6 @@
 import { MessageCircle, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { siteConfig } from '../data/mockData';
 
 const footerLinks = {
   products: [
@@ -28,26 +29,26 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-1">
             <h2 className="font-display text-3xl text-gradient-gold tracking-wider mb-6">
-              欧蜜儿
+              {siteConfig.brandName}
             </h2>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
-              扎根广州17年的时尚女装品牌，专注品质女装，用心服务每一位顾客。
+              {siteConfig.footerIntro}
             </p>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3 text-white/60 text-sm">
                 <MessageCircle className="w-4 h-4 text-bobby-gold" />
-                微信：ACY829
+                微信：{siteConfig.wechat}
               </div>
               <a
-                href="tel:17373353281"
+                href={`tel:${siteConfig.phone}`}
                 className="flex items-center gap-3 text-white/60 hover:text-bobby-gold transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 text-bobby-gold" />
-                　17373353281
+                　{siteConfig.phone}
               </a>
               <div className="flex items-center gap-3 text-white/60 text-sm">
                 <MapPin className="w-4 h-4 text-bobby-gold" />
-                广州万佳批发市场2街
+                {siteConfig.address}
               </div>
             </div>
           </div>
@@ -109,7 +110,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/40 text-xs">
-            2026 欧蜜儿. All rights reserved.
+            {new Date().getFullYear()} {siteConfig.brandName}. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-white/40 hover:text-bobby-gold transition-colors text-xs">

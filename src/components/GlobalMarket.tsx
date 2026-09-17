@@ -1,5 +1,5 @@
 import { MapPin, Clock, Phone, MessageCircle } from 'lucide-react';
-import { stores } from '../data/mockData';
+import { stores, siteConfig } from '../data/mockData';
 import { Link } from 'react-router-dom';
 
 export default function GlobalMarket() {
@@ -16,8 +16,7 @@ export default function GlobalMarket() {
             门店地址
           </h2>
           <p className="text-white/60 mt-6 max-w-2xl mx-auto">
-            欧蜜儿门店位于广州万佳批发市场，17年实体经营，
-            欢迎您到店试穿选购，我们将为您提供贴心的一对一服务。
+            {siteConfig.storeIntro}
           </p>
         </div>
 
@@ -78,15 +77,15 @@ export default function GlobalMarket() {
                 <Clock className="w-5 h-5 text-bobby-gold flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-white/50 text-sm mb-1">营业时间</p>
-                  <p className="text-white">周一至周日 9:00 - 18:00</p>
+                  <p className="text-white">{siteConfig.hours}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Phone className="w-5 h-5 text-bobby-gold flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-white/50 text-sm mb-1">联系电话</p>
-                  <a href="tel:17373353281" className="text-white hover:text-bobby-gold transition-colors">
-                    17373353281
+                  <a href={`tel:${siteConfig.phone}`} className="text-white hover:text-bobby-gold transition-colors">
+                    {siteConfig.phone}
                   </a>
                 </div>
               </div>
@@ -94,7 +93,7 @@ export default function GlobalMarket() {
                 <MessageCircle className="w-5 h-5 text-bobby-gold flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-white/50 text-sm mb-1">微信咨询</p>
-                  <p className="text-white">ACY829</p>
+                  <p className="text-white">{siteConfig.wechat}</p>
                 </div>
               </div>
             </div>

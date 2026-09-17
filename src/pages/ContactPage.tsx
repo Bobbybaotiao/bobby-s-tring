@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MapPin, Phone, MessageCircle, Clock, Send } from 'lucide-react';
-import { stores } from '../data/mockData';
+import { stores, siteConfig } from '../data/mockData';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -44,7 +44,7 @@ export default function ContactPage() {
             联系我们
           </h1>
           <p className="text-white/60 max-w-2xl mx-auto">
-            无论您是想了解产品、寻找门店，还是洽谈合作，我们都期待与您取得联系
+            {siteConfig.contactIntro}
           </p>
         </div>
 
@@ -53,18 +53,18 @@ export default function ContactPage() {
             <MapPin className="w-8 h-8 text-bobby-gold mb-6" />
             <h3 className="font-display text-xl text-white mb-4">门店地址</h3>
             <p className="text-white/60 text-sm">
-              欢迎到欧蜜儿门店试穿选购，亲身体验我们的产品
+              欢迎到{siteConfig.brandName}门店试穿选购，亲身体验我们的产品
             </p>
-            <p className="text-bobby-gold mt-2">广州万佳批发市场2街</p>
+            <p className="text-bobby-gold mt-2">{siteConfig.address}</p>
           </div>
           <div className="p-8 border border-white/10">
             <Phone className="w-8 h-8 text-bobby-gold mb-6" />
             <h3 className="font-display text-xl text-white mb-4">联系电话</h3>
             <p className="text-white/60 text-sm">
-              周一至周日 9:00-18:00
+              {siteConfig.hours}
             </p>
-            <a href="tel:17373353281" className="text-bobby-gold mt-2 inline-block hover:underline">
-              　17373353281
+            <a href={`tel:${siteConfig.phone}`} className="text-bobby-gold mt-2 inline-block hover:underline">
+              　{siteConfig.phone}
             </a>
           </div>
           <div className="p-8 border border-white/10">
@@ -73,7 +73,7 @@ export default function ContactPage() {
             <p className="text-white/60 text-sm">
               产品咨询、下单合作，随时联系
             </p>
-            <p className="text-bobby-gold mt-2">ACY829</p>
+            <p className="text-bobby-gold mt-2">{siteConfig.wechat}</p>
           </div>
         </div>
 

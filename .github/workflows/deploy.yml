@@ -1,0 +1,65 @@
+name: 自动部署网站
+
+# 什么时候运行：main 分支有更新时（即在 GitHub 上保存内容文件后），也支持手动触发
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# 同一时间只跑一个部署，避免互相覆盖
+concurrency:
+  group: deploy-to-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    name: 构建并部署到 GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取网站代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 安装 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 构建网站
+        run: npm run build
+
+      - name: 更新 gh-pages 分支（快进提交，不覆盖历史）
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 拿到远程 gh-pages 分支并在临时目录检出
+          git fetch origin gh-pages:gh-pages
+          git worktree add ../deploy gh-pages
+
+          # 用最新构建产物替换整个分支内容（保留隐藏文件如 .nojekyll）
+          rm -rf ../deploy/*
+          shopt -s dotglob
+          cp -r dist/* ../deploy/
+
+          cd ../deploy
+          touch .nojekyll
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "内容没有变化，无需部署"
+          else
+            git commit -m "自动部署 $GITHUB_SHA"
+            # 普通推送（快进），不使用强制推送，避免断开 GitHub Pages
+            git push origin gh-pages
+            echo "部署完成，GitHub Pages 将在约1分钟后自动更新"
+          fi

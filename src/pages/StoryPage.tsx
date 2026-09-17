@@ -1,4 +1,5 @@
 import Timeline from '../components/Timeline';
+import { storyPage } from '../data/mockData';
 
 export default function StoryPage() {
   return (
@@ -11,34 +12,23 @@ export default function StoryPage() {
           <h1 className="font-display text-4xl md:text-6xl text-white mb-6">
             品牌故事
           </h1>
-          <p className="text-white/60 max-w-2xl mx-auto leading-relaxed">
-            欧蜜儿的旅程始于2009年的广州，源于对时尚的热爱与追求。
-            17年来，我们相信真正的时尚是一种生活态度，是对美的不懈追求。
-          </p>
+          {storyPage.intro.map((paragraph, index) => (
+            <p key={index} className="text-white/60 max-w-2xl mx-auto leading-relaxed">
+              {paragraph}
+            </p>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
-          <div className="text-center p-8 border border-white/10">
-            <p className="font-display text-5xl text-bobby-gold mb-4">01</p>
-            <h3 className="font-display text-xl text-white mb-4">设计理念</h3>
-            <p className="text-white/60 text-sm leading-relaxed">
-              融合东方美学与西方设计，创造独特的时尚风格
-            </p>
-          </div>
-          <div className="text-center p-8 border border-white/10">
-            <p className="font-display text-5xl text-bobby-gold mb-4">02</p>
-            <h3 className="font-display text-xl text-white mb-4">品质承诺</h3>
-            <p className="text-white/60 text-sm leading-relaxed">
-              精选顶级面料，精湛工艺，只为呈现最完美的品质
-            </p>
-          </div>
-          <div className="text-center p-8 border border-white/10">
-            <p className="font-display text-5xl text-bobby-gold mb-4">03</p>
-            <h3 className="font-display text-xl text-white mb-4">用心服务</h3>
-            <p className="text-white/60 text-sm leading-relaxed">
-              扎根广州万佳批发市场，17年如一日，服务好每一位顾客
-            </p>
-          </div>
+          {storyPage.values.map((value, index) => (
+            <div key={index} className="text-center p-8 border border-white/10">
+              <p className="font-display text-5xl text-bobby-gold mb-4">
+                {String(index + 1).padStart(2, '0')}
+              </p>
+              <h3 className="font-display text-xl text-white mb-4">{value.title}</h3>
+              <p className="text-white/60 text-sm leading-relaxed">{value.text}</p>
+            </div>
+          ))}
         </div>
 
         <div className="mb-20">
@@ -51,7 +41,7 @@ export default function StoryPage() {
         <div className="relative">
           <div className="aspect-[21/9] relative overflow-hidden">
             <img
-              src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=fashion%20runway%20show%20elegant%20models%20professional%20lighting%20luxury%20brand&image_size=landscape_16_9"
+              src={storyPage.futureImage}
               alt="Fashion Show"
               className="w-full h-full object-cover"
             />
@@ -63,10 +53,10 @@ export default function StoryPage() {
                 Future Vision
               </p>
               <h2 className="font-display text-4xl md:text-5xl text-white mb-6">
-                展望未来
+                {storyPage.futureTitle}
               </h2>
               <p className="text-white/70 max-w-2xl mx-auto">
-                我们将继续深耕品质女装，以更美的款式、更实在的价格，回报每一位顾客的信赖
+                {storyPage.futureText}
               </p>
             </div>
           </div>

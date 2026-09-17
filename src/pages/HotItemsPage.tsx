@@ -1,58 +1,7 @@
 import { useState } from 'react';
 import { Flame, ShoppingBag, Heart, Share2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-interface HotItem {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  originalPrice: number;
-  imageUrl: string;
-  badge: string;
-  features: string[];
-  soldCount: number;
-  rating: number;
-}
-
-const hotItems: HotItem[] = [
-  {
-    id: '1',
-    name: '经典风衣外套',
-    description: '精选优质面料，剪裁利落，经典风衣版型，适合多种场合穿着。细节考究，彰显品质生活。',
-    price: 450,
-    originalPrice: 680,
-    imageUrl: `${import.meta.env.BASE_URL}clothes/item1.jpg`,
-    badge: '人气爆款',
-    features: ['优质面料', '经典版型', '多色可选', '四季可穿'],
-    soldCount: 1280,
-    rating: 4.9,
-  },
-  {
-    id: '2',
-    name: '优雅针织衫',
-    description: '柔软舒适的针织面料，简约设计风格，修饰身形，百搭单品，轻松搭配各种造型。',
-    price: 500,
-    originalPrice: 750,
-    imageUrl: `${import.meta.env.BASE_URL}clothes/item2.jpg`,
-    badge: '热销TOP1',
-    features: ['柔软亲肤', '修身剪裁', '百搭单品', '透气舒适'],
-    soldCount: 2156,
-    rating: 4.8,
-  },
-  {
-    id: '3',
-    name: '时尚休闲套装',
-    description: '一套搞定日常穿搭，面料挺括有型，休闲与时尚的完美结合，街头潮流必备之选。',
-    price: 550,
-    originalPrice: 820,
-    imageUrl: `${import.meta.env.BASE_URL}clothes/item3.jpg`,
-    badge: '限量发售',
-    features: ['套装组合', '挺括有型', '潮流设计', '舒适自在'],
-    soldCount: 893,
-    rating: 4.7,
-  },
-];
+import { hotItems } from '../data/mockData';
 
 export default function HotItemsPage() {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());

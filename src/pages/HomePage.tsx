@@ -4,12 +4,10 @@ import Hero from '../components/Hero';
 import BrandStory from '../components/BrandStory';
 import FeaturedProducts from '../components/FeaturedProducts';
 import GlobalMarket from '../components/GlobalMarket';
+import { hotItems } from '../data/mockData';
 
-const hotItems = [
-  { id: '1', name: '经典风衣外套', price: 450, image: `${import.meta.env.BASE_URL}clothes/item1.jpg`, badge: '人气爆款' },
-  { id: '2', name: '优雅针织衫', price: 500, image: `${import.meta.env.BASE_URL}clothes/item2.jpg`, badge: '热销TOP1' },
-  { id: '3', name: '时尚休闲套装', price: 550, image: `${import.meta.env.BASE_URL}clothes/item3.jpg`, badge: '限量发售' },
-];
+// 首页只展示内容文件里 showOnHome 为 true 的前 3 个爆款
+const homeHotItems = hotItems.filter((item) => item.showOnHome).slice(0, 3);
 
 export default function HomePage() {
   return (
@@ -41,7 +39,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {hotItems.map((item) => (
+            {homeHotItems.map((item) => (
               <Link
                 key={item.id}
                 to="/hot-items"
@@ -49,7 +47,7 @@ export default function HomePage() {
               >
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <img
-                    src={item.image}
+                    src={item.imageUrl}
                     alt={item.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
