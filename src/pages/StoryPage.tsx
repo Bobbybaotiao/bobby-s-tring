@@ -1,5 +1,6 @@
 import Timeline from '../components/Timeline';
 import { storyPage } from '../data/mockData';
+import CustomFieldsDisplay from '../components/CustomFieldsDisplay';
 
 export default function StoryPage() {
   return (
@@ -62,6 +63,9 @@ export default function StoryPage() {
           </div>
         </div>
       </div>
+
+      <CustomFieldsDisplay section="timelineEvents" />
+      <CustomFieldsDisplay section="storyPage" />
     </main>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CategoryNav from '../components/CategoryNav';
 import ProductCard from '../components/ProductCard';
+import CustomFieldsDisplay from '../components/CustomFieldsDisplay';
 import { products } from '../data/mockData';
 import type { Product } from '../data/mockData';
 
@@ -60,6 +61,8 @@ export default function CollectionsPage() {
             <p className="text-white/50">暂无商品</p>
           </div>
         )}
+
+        <CustomFieldsDisplay section="products" />
       </div>
     </main>
   );

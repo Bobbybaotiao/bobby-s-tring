@@ -4,6 +4,7 @@ import Hero from '../components/Hero';
 import BrandStory from '../components/BrandStory';
 import FeaturedProducts from '../components/FeaturedProducts';
 import GlobalMarket from '../components/GlobalMarket';
+import CustomFieldsDisplay from '../components/CustomFieldsDisplay';
 import { hotItems } from '../data/mockData';
 
 // 首页只展示内容文件里 showOnHome 为 true 的前 3 个爆款
@@ -75,6 +76,8 @@ export default function HomePage() {
       <BrandStory />
       <FeaturedProducts />
       <GlobalMarket />
+      <CustomFieldsDisplay section="heroSlides" />
+      <CustomFieldsDisplay section="homeStory" />
     </main>
   );
 }

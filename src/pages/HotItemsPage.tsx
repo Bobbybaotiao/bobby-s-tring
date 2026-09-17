@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Flame, ShoppingBag, Heart, Share2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { hotItems } from '../data/mockData';
+import CustomFieldsDisplay from '../components/CustomFieldsDisplay';
 
 export default function HotItemsPage() {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
@@ -174,6 +175,8 @@ export default function HotItemsPage() {
           </Link>
         </div>
       </div>
+
+      <CustomFieldsDisplay section="hotItems" />
     </main>
   );
 }

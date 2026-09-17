@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MapPin, Phone, MessageCircle, Clock, Send } from 'lucide-react';
 import { stores, siteConfig } from '../data/mockData';
+import CustomFieldsDisplay from '../components/CustomFieldsDisplay';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -215,6 +216,8 @@ export default function ContactPage() {
             )}
           </div>
         </div>
+
+        <CustomFieldsDisplay section="siteConfig" />
       </div>
     </main>
   );
