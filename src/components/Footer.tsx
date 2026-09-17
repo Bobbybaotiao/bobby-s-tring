@@ -5,8 +5,7 @@ import { siteConfig } from '../data/mockData';
 const footerLinks = {
   products: [
     { name: '当季爆款', path: '/hot-items' },
-    { name: '女装系列', path: '/collections?category=women' },
-    { name: '配饰系列', path: '/collections?category=accessories' },
+    { name: '产品系列', path: '/collections' },
   ],
   about: [
     { name: '品牌故事', path: '/story' },

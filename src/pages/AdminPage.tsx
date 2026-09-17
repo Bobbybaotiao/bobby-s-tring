@@ -83,8 +83,14 @@ type Content = {
     name: string;
     description: string;
     price: number;
-    category: string;
+    categoryId: string;
     series: string;
+    image: string;
+  }>;
+  categories: Array<{
+    id: string;
+    name: string;
+    description: string;
     image: string;
   }>;
   timelineEvents: Array<{ year: string; title: string; description: string }>;
@@ -104,6 +110,7 @@ type SectionId =
   | 'heroSlides'
   | 'hotItems'
   | 'homeStory'
+  | 'categories'
   | 'products'
   | 'timelineEvents'
   | 'storyPage';
@@ -113,6 +120,7 @@ const SECTIONS: Array<{ id: SectionId; label: string }> = [
   { id: 'heroSlides', label: '首页轮播大图' },
   { id: 'hotItems', label: '当季爆款' },
   { id: 'homeStory', label: '首页品牌故事' },
+  { id: 'categories', label: '商品大类' },
   { id: 'products', label: '全部商品' },
   { id: 'timelineEvents', label: '发展历程' },
   { id: 'storyPage', label: '故事页内容' },
@@ -155,7 +163,15 @@ export default function AdminPage() {
       const data = await res.json();
       setSha(data.sha);
       const text = decodeBase64(data.content);
-      setContent(JSON.parse(text));
+      const parsed = JSON.parse(text);
+      // 兼容旧版数据：缺少大类字段时补空数组
+      if (!Array.isArray(parsed.categories)) parsed.categories = [];
+      if (Array.isArray(parsed.products)) {
+        parsed.products = parsed.products.map((p: Record<string, unknown>) =>
+          'categoryId' in p ? p : { ...p, categoryId: '' }
+        );
+      }
+      setContent(parsed);
     } catch (e) {
       setMessage('加载失败：' + (e as Error).message);
     } finally {
@@ -766,8 +782,45 @@ export default function AdminPage() {
             </SectionCard>
           )}
 
+          {activeSection === 'categories' && (
+            <SectionCard title="商品大类" desc="产品系列页先展示这些大类卡片，访客点击后看到该类下的具体款式。可随时添加新大类">
+              {content.categories.map((c, i) => (
+                <ItemCard
+                  key={i}
+                  index={i + 1}
+                  title={c.name || `大类 ${i + 1}`}
+                  onRemove={() => removeListItem('categories', i)}
+                  imagePreview={c.image}
+                >
+                  <TextField label="大类名称（如：裙装、大衣外套、衬衫）" value={c.name} onChange={(v) => updateListItem('categories', i, { name: v })} />
+                  <TextareaField label="大类介绍（显示在大类卡片上，可不填）" value={c.description} onChange={(v) => updateListItem('categories', i, { description: v })} />
+                  <ImageField label="大类封面图" value={c.image} onChange={(v) => updateListItem('categories', i, { image: v })} onUpload={uploadImage} uploading={uploading} uploadError={uploadError} />
+                  <p className="text-xs text-gray-400">编号（自动生成，请勿修改）：{c.id}</p>
+                </ItemCard>
+              ))}
+              <AddButton
+                label="添加一个大类"
+                onClick={() => addListItem('categories', {
+                  id: 'cat_' + Date.now().toString(36),
+                  name: '新大类',
+                  description: '',
+                  image: '',
+                })}
+              />
+
+              <CustomFieldsBlock
+                sectionId="categories"
+                sectionLabel="商品大类"
+                fields={getCustomFields('categories')}
+                onUpdate={updateCustomField}
+                onAdd={addCustomField}
+                onRemove={removeCustomField}
+              />
+            </SectionCard>
+          )}
+
           {activeSection === 'products' && (
-            <SectionCard title="全部商品" desc="产品系列页和首页「当季新品」共用。首页自动取前 6 件">
+            <SectionCard title="全部商品" desc="产品系列页和首页「当季新品」共用。首页自动取前 6 件。每件商品选择一个所属大类">
               {content.products.map((p, i) => (
                 <ItemCard
                   key={i}
@@ -780,15 +833,20 @@ export default function AdminPage() {
                   <TextareaField label="商品描述" value={p.description} onChange={(v) => updateListItem('products', i, { description: v })} />
                   <NumberField label="价格（数字）" value={p.price} onChange={(v) => updateListItem('products', i, { price: v })} />
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">分类</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">所属大类</label>
                     <select
-                      value={p.category}
-                      onChange={(e) => updateListItem('products', i, { category: e.target.value })}
+                      value={p.categoryId}
+                      onChange={(e) => updateListItem('products', i, { categoryId: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
                     >
-                      <option value="女装">女装</option>
-                      <option value="配饰">配饰</option>
+                      <option value="">（未分类）</option>
+                      {content.categories.map((c) => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
                     </select>
+                    {content.categories.length === 0 && (
+                      <p className="text-xs text-amber-600 mt-1">还没有大类，请到左侧「商品大类」先添加</p>
+                    )}
                   </div>
                   <TextField label="系列（如「2024 秋冬系列」）" value={p.series} onChange={(v) => updateListItem('products', i, { series: v })} />
                   <ImageField label="图片地址" value={p.image} onChange={(v) => updateListItem('products', i, { image: v })} onUpload={uploadImage} uploading={uploading} uploadError={uploadError} />
@@ -800,7 +858,7 @@ export default function AdminPage() {
                   name: '新商品',
                   description: '',
                   price: 0,
-                  category: '女装',
+                  categoryId: content.categories[0]?.id || '',
                   series: '2024 系列',
                   image: '',
                 })}

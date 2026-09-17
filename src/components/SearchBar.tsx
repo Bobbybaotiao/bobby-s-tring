@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Search, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { products, hotItems } from '../data/mockData';
+import { products, hotItems, categories } from '../data/mockData';
 
 // 把 products 和 hotItems 合并成统一的搜索结果结构
 interface SearchResult {
@@ -28,6 +28,10 @@ export default function SearchBar() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  // 商品 id → 大类名称
+  const categoryNameOf = (categoryId: string) =>
+    categories.find((c) => c.id === categoryId)?.name || '';
+
   // 实时搜索
   const results = useMemo<SearchResult[]>(() => {
     const q = query.trim().toLowerCase();
@@ -39,7 +43,7 @@ export default function SearchBar() {
     // 搜全部商品
     products.forEach((p) => {
       if (seen.has(p.name)) return;
-      const haystack = `${p.name} ${p.description} ${p.collection} ${p.category === 'women' ? '女装' : '配饰'}`.toLowerCase();
+      const haystack = `${p.name} ${p.description} ${p.collection} ${categoryNameOf(p.categoryId)}`.toLowerCase();
       if (haystack.includes(q)) {
         list.push({ id: p.id, name: p.name, price: p.price, imageUrl: p.imageUrl, source: 'product' });
         seen.add(p.name);

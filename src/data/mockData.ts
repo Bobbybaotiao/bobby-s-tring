@@ -26,8 +26,15 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  category: 'women' | 'accessories';
+  categoryId: string;
   collection: string;
+  imageUrl: string;
+}
+
+export interface ProductCategory {
+  id: string;
+  name: string;
+  description: string;
   imageUrl: string;
 }
 
@@ -89,12 +96,20 @@ export const hotItems: HotItem[] = content.hotItems.map((item, index) => ({
   showOnHome: item.showOnHome,
 }));
 
+// 商品大类（如：裙装、大衣外套、衬衫；后台可随时增删改）
+export const categories: ProductCategory[] = (content.categories || []).map((c) => ({
+  id: c.id,
+  name: c.name,
+  description: c.description,
+  imageUrl: resolveImage(c.image),
+}));
+
 export const products: Product[] = content.products.map((product, index) => ({
   id: String(index + 1),
   name: product.name,
   description: product.description,
   price: product.price,
-  category: product.category.trim() === '配饰' ? 'accessories' : 'women',
+  categoryId: product.categoryId || '',
   collection: product.series,
   imageUrl: resolveImage(product.image),
 }));

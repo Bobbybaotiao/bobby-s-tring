@@ -107,12 +107,32 @@
       }
     ]
   },
+  "categories": [
+    {
+      "id": "dress",
+      "name": "裙装",
+      "description": "优雅连衣裙与长裙，展现女性柔美气质",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20black%20velvet%20long%20dress%20fashion%20photography%20studio%20lighting&image_size=portrait_4_3"
+    },
+    {
+      "id": "coat",
+      "name": "大衣外套",
+      "description": "羊绒大衣、羊毛外套，温暖与时尚并存",
+      "image": "2026-09-17_08-32-03.jpg"
+    },
+    {
+      "id": "shirt",
+      "name": "衬衫",
+      "description": "真丝、通勤衬衫，简约百搭单品",
+      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=white%20silk%20blouse%20elegant%20fashion%20photography&image_size=portrait_4_3"
+    }
+  ],
   "products": [
     {
       "name": "丝绒长裙",
       "description": "优雅的黑色丝绒长裙，展现女性柔美气质",
       "price": 2999,
-      "category": "女装",
+      "categoryId": "dress",
       "series": "2024 秋冬系列",
       "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20black%20velvet%20long%20dress%20fashion%20photography%20studio%20lighting&image_size=portrait_4_3"
     },
@@ -120,7 +140,7 @@
       "name": "羊绒大衣",
       "description": "经典驼色羊绒大衣，温暖与时尚并存",
       "price": 5999,
-      "category": "女装",
+      "categoryId": "coat",
       "series": "2024 秋冬系列",
       "image": "2026-09-17_08-32-03.jpg"
     },
@@ -128,33 +148,9 @@
       "name": "真丝衬衫",
       "description": "简约白色真丝衬衫，百搭单品",
       "price": 1299,
-      "category": "女装",
+      "categoryId": "shirt",
       "series": "2024 春夏系列",
       "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=white%20silk%20blouse%20elegant%20fashion%20photography&image_size=portrait_4_3"
-    },
-    {
-      "name": "真皮手袋",
-      "description": "精致真皮手提包，彰显品味",
-      "price": 4599,
-      "category": "配饰",
-      "series": "2024 秋冬系列",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=luxury%20leather%20handbag%20fashion%20accessory%20photography&image_size=portrait_4_3"
-    },
-    {
-      "name": "时尚围巾",
-      "description": "纯羊绒时尚围巾",
-      "price": 1299,
-      "category": "配饰",
-      "series": "2024 秋冬系列",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=cashmere%20fashion%20scarf%20accessory%20photography%20elegant&image_size=portrait_4_3"
-    },
-    {
-      "name": "精致腕表",
-      "description": "瑞士机芯精致腕表",
-      "price": 8999,
-      "category": "配饰",
-      "series": "2024 春夏系列",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=luxury%20swiss%20watch%20fashion%20accessory%20photography&image_size=portrait_4_3"
     }
   ],
   "timelineEvents": [
@@ -176,7 +172,7 @@
     {
       "year": "2019",
       "title": "品类升级",
-      "description": "建立稳定供应链，女装与配饰品类全面丰富"
+      "description": "建立稳定供应链，女装款式与品类全面丰富"
     },
     {
       "year": "2022",
@@ -217,6 +213,7 @@
     "heroSlides": [],
     "hotItems": [],
     "homeStory": [],
+    "categories": [],
     "products": [],
     "timelineEvents": [],
     "storyPage": []
