@@ -35,6 +35,14 @@ function decodeBase64(b64: string): string {
   }
 }
 
+/* ---- 图片地址解析：https:// 开头直接用，文件名自动指向 images 文件夹 ---- */
+function resolveImage(src: string): string {
+  const value = (src || '').trim();
+  if (!value) return '';
+  if (/^https?:\/\//i.test(value)) return value;
+  return `${import.meta.env.BASE_URL}images/${value.replace(/^\/+/, '')}`;
+}
+
 /* ---- 类型定义（仅用于编辑器内部状态） ---- */
 type Content = {
   siteConfig: {
@@ -1174,7 +1182,7 @@ function ImageField({
         )}
         {value && (
           <img
-            src={value}
+            src={resolveImage(value)}
             alt=""
             className="w-16 h-16 object-cover rounded border border-gray-300 shrink-0"
             onError={(e) => {
