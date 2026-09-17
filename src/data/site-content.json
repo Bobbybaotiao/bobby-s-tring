@@ -35,7 +35,7 @@
       "price": 450,
       "originalPrice": 680,
       "description": "精选优质面料，剪裁利落，经典风衣版型，适合多种场合穿着。细节考究，彰显品质生活。",
-      "image": "item1.jpg",
+      "image": "2026-09-17_08-28-49.jpg",
       "badge": "人气爆款",
       "features": [
         "优质面料",
@@ -122,7 +122,7 @@
       "price": 5999,
       "category": "女装",
       "series": "2024 秋冬系列",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=classic%20camel%20cashmere%20coat%20fashion%20photography%20minimalist&image_size=portrait_4_3"
+      "image": "2026-09-17_08-32-03.jpg"
     },
     {
       "name": "真丝衬衫",
