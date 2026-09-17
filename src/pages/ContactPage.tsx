@@ -8,6 +8,7 @@ export default function ContactPage() {
     name: '',
     email: '',
     phone: '',
+    wechat: '',
     company: '',
     message: '',
     type: 'customer',
@@ -27,7 +28,7 @@ export default function ContactPage() {
       other: '其他',
     }[formData.type] || '客户咨询';
 
-    const content = `【欧蜜儿网站留言】\n\n姓名：${formData.name}\n邮箱：${formData.email}\n电话：${formData.phone || '未填写'}\n公司：${formData.company || '未填写'}\n类型：${typeLabel}\n留言：${formData.message}`;
+    const content = `【欧蜜儿网站留言】\n\n姓名：${formData.name}\n邮箱：${formData.email}\n电话：${formData.phone || '未填写'}\n微信：${formData.wechat || '未填写'}\n公司：${formData.company || '未填写'}\n类型：${typeLabel}\n留言：${formData.message}`;
 
     const token = siteConfig.pushplusToken;
 
@@ -37,7 +38,7 @@ export default function ContactPage() {
         setSubmitState('success');
         setTimeout(() => {
           setSubmitState('idle');
-          setFormData({ name: '', email: '', phone: '', company: '', message: '', type: 'customer' });
+          setFormData({ name: '', email: '', phone: '', wechat: '', company: '', message: '', type: 'customer' });
         }, 3000);
         return;
       }
@@ -76,7 +77,7 @@ export default function ContactPage() {
         setSubmitState('success');
         setTimeout(() => {
           setSubmitState('idle');
-          setFormData({ name: '', email: '', phone: '', company: '', message: '', type: 'customer' });
+          setFormData({ name: '', email: '', phone: '', wechat: '', company: '', message: '', type: 'customer' });
         }, 3000);
       } else {
         throw new Error(result.msg || '推送失败，请确认 Token 是否正确');
@@ -224,18 +225,32 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <label className="block text-white/70 text-sm mb-2">
-                      公司名称
+                      微信号
                     </label>
                     <input
                       type="text"
-                      name="company"
-                      value={formData.company}
+                      name="wechat"
+                      value={formData.wechat}
                       onChange={handleChange}
                       disabled={submitState === 'loading'}
                       className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors disabled:opacity-50"
-                      placeholder="请输入公司名称"
+                      placeholder="请输入微信号（选填）"
                     />
                   </div>
+                </div>
+                <div>
+                  <label className="block text-white/70 text-sm mb-2">
+                    公司名称
+                  </label>
+                  <input
+                    type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    disabled={submitState === 'loading'}
+                    className="w-full bg-white/5 border border-white/20 px-4 py-3 text-white placeholder-white/40 focus:border-bobby-gold focus:outline-none transition-colors disabled:opacity-50"
+                    placeholder="请输入公司名称"
+                  />
                 </div>
                 <div>
                   <label className="block text-white/70 text-sm mb-2">
