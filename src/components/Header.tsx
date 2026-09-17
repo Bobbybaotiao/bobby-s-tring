@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { siteConfig } from '../data/mockData';
+import SearchBar from './SearchBar';
 
 const navItems = [
   { name: '首页', path: '/' },
@@ -56,6 +57,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <SearchBar />
           <button className="text-white/80 hover:text-bobby-gold transition-colors">
             <ShoppingBag className="w-6 h-6" />
           </button>
