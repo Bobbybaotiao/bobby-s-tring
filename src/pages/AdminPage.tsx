@@ -349,7 +349,6 @@ export default function AdminPage() {
   /* ---- 图片上传 ---- */
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
-  const [uploadedName, setUploadedName] = useState('');
 
   const uploadImage = async (file: File): Promise<string> => {
     if (!token) {
@@ -358,7 +357,6 @@ export default function AdminPage() {
     }
     setUploading(true);
     setUploadError('');
-    setUploadedName('');
     try {
       const reader = new FileReader();
       const base64: string = await new Promise((resolve, reject) => {
@@ -410,20 +408,18 @@ export default function AdminPage() {
         const err = await res.json().catch(() => ({}));
         throw new Error(err.message || `HTTP ${res.status}`);
       }
-      setUploadedName(filename);
       return filename;
     } catch (e) {
       setUploadError((e as Error).message);
       throw e;
     } finally {
       setUploading(false);
-      setTimeout(() => setUploadedName(''), 3000);
     }
   };
 
   /* ---- 通用自定义字段（每个分区都有一组，key-value） ---- */
   const getCustomFields = (section: string) =>
-    content.sectionCustomFields[section] || [];
+    content?.sectionCustomFields?.[section] ?? [];
   const updateCustomField = (section: string, index: number, key: string, value: string) => {
     setContent((prev) => {
       if (!prev) return prev;
