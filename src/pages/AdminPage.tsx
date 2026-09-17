@@ -48,7 +48,6 @@ type Content = {
     footerIntro: string;
     storeIntro: string;
     contactIntro: string;
-    customFields: Array<{ key: string; value: string }>;
   };
   heroSlides: Array<{ title: string; subtitle: string; image: string }>;
   hotItems: Array<{
@@ -87,6 +86,8 @@ type Content = {
     futureTitle: string;
     futureText: string;
   };
+  /* 每个分区的自定义字段（key-value，想加什么加什么） */
+  sectionCustomFields: Record<string, Array<{ key: string; value: string }>>;
 };
 
 type SectionId =
@@ -345,27 +346,39 @@ export default function AdminPage() {
     });
   };
 
-  /* ---- siteConfig 自定义字段（key-value） ---- */
-  const updateCustomField = (index: number, key: string, value: string) => {
+  /* ---- 通用自定义字段（每个分区都有一组，key-value） ---- */
+  const getCustomFields = (section: string) =>
+    content.sectionCustomFields[section] || [];
+  const updateCustomField = (section: string, index: number, key: string, value: string) => {
     setContent((prev) => {
       if (!prev) return prev;
-      const list = [...prev.siteConfig.customFields];
+      const list = [...(prev.sectionCustomFields[section] || [])];
       list[index] = { key, value };
-      return { ...prev, siteConfig: { ...prev.siteConfig, customFields: list } };
+      return {
+        ...prev,
+        sectionCustomFields: { ...prev.sectionCustomFields, [section]: list },
+      };
     });
   };
-  const addCustomField = () => {
+  const addCustomField = (section: string) => {
     setContent((prev) => {
       if (!prev) return prev;
-      return { ...prev, siteConfig: { ...prev.siteConfig, customFields: [...prev.siteConfig.customFields, { key: '新字段', value: '新值' }] } };
+      const list = [...(prev.sectionCustomFields[section] || []), { key: '新字段', value: '新值' }];
+      return {
+        ...prev,
+        sectionCustomFields: { ...prev.sectionCustomFields, [section]: list },
+      };
     });
   };
-  const removeCustomField = (index: number) => {
+  const removeCustomField = (section: string, index: number) => {
     setContent((prev) => {
       if (!prev) return prev;
-      const list = [...prev.siteConfig.customFields];
+      const list = [...(prev.sectionCustomFields[section] || [])];
       list.splice(index, 1);
-      return { ...prev, siteConfig: { ...prev.siteConfig, customFields: list } };
+      return {
+        ...prev,
+        sectionCustomFields: { ...prev.sectionCustomFields, [section]: list },
+      };
     });
   };
 
@@ -478,42 +491,14 @@ export default function AdminPage() {
               <TextareaField label="首页门店区块介绍" value={content.siteConfig.storeIntro} onChange={(v) => updateField('siteConfig', 'storeIntro', v)} />
               <TextareaField label="联系页顶部说明" value={content.siteConfig.contactIntro} onChange={(v) => updateField('siteConfig', 'contactIntro', v)} />
 
-              <div className="border-t border-gray-200 pt-3 mt-3">
-                <div className="flex items-center justify-between mb-2">
-                  <div>
-                    <p className="text-sm font-medium text-gray-700">自定义字段</p>
-                    <p className="text-xs text-gray-400">想加什么就加什么（比如第二个电话、第二个微信号），保存后这里的数据会存到网站内容里。注：自定义字段不会自动显示在网页上，如果需要让网页用到请告诉我。</p>
-                  </div>
-                  <button onClick={addCustomField} className="text-xs bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded inline-flex items-center gap-1">
-                    <Plus className="w-3 h-3" />
-                    添加
-                  </button>
-                </div>
-                {content.siteConfig.customFields.length === 0 && (
-                  <p className="text-xs text-gray-400 italic">还没有自定义字段，点上面「添加」开始</p>
-                )}
-                {content.siteConfig.customFields.map((f, i) => (
-                  <div key={i} className="grid grid-cols-[140px_1fr_auto] gap-2 mb-2">
-                    <input
-                      type="text"
-                      placeholder="字段名"
-                      value={f.key}
-                      onChange={(e) => updateCustomField(i, e.target.value, f.value)}
-                      className="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
-                    />
-                    <input
-                      type="text"
-                      placeholder="字段值"
-                      value={f.value}
-                      onChange={(e) => updateCustomField(i, f.key, e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
-                    />
-                    <button onClick={() => removeCustomField(i)} className="text-red-500 hover:bg-red-50 p-2 rounded">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
-              </div>
+              <CustomFieldsBlock
+                sectionId="siteConfig"
+                sectionLabel="店铺基本信息"
+                fields={getCustomFields('siteConfig')}
+                onUpdate={updateCustomField}
+                onAdd={addCustomField}
+                onRemove={removeCustomField}
+              />
             </SectionCard>
           )}
 
@@ -533,6 +518,15 @@ export default function AdminPage() {
                 </ItemCard>
               ))}
               <AddButton label="添加一张大图" onClick={() => addListItem('heroSlides', { title: '新大标题', subtitle: '新小标题', image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20fashion%20model&image_size=landscape_16_9' })} />
+
+              <CustomFieldsBlock
+                sectionId="heroSlides"
+                sectionLabel="首页轮播大图"
+                fields={getCustomFields('heroSlides')}
+                onUpdate={updateCustomField}
+                onAdd={addCustomField}
+                onRemove={removeCustomField}
+              />
             </SectionCard>
           )}
 
@@ -618,6 +612,15 @@ export default function AdminPage() {
                   showOnHome: true,
                 })}
               />
+
+              <CustomFieldsBlock
+                sectionId="hotItems"
+                sectionLabel="当季爆款"
+                fields={getCustomFields('hotItems')}
+                onUpdate={updateCustomField}
+                onAdd={addCustomField}
+                onRemove={removeCustomField}
+              />
             </SectionCard>
           )}
 
@@ -665,6 +668,15 @@ export default function AdminPage() {
                   添加数据
                 </button>
               </div>
+
+              <CustomFieldsBlock
+                sectionId="homeStory"
+                sectionLabel="首页品牌故事"
+                fields={getCustomFields('homeStory')}
+                onUpdate={updateCustomField}
+                onAdd={addCustomField}
+                onRemove={removeCustomField}
+              />
             </SectionCard>
           )}
 
@@ -707,6 +719,15 @@ export default function AdminPage() {
                   image: '',
                 })}
               />
+
+              <CustomFieldsBlock
+                sectionId="products"
+                sectionLabel="全部商品"
+                fields={getCustomFields('products')}
+                onUpdate={updateCustomField}
+                onAdd={addCustomField}
+                onRemove={removeCustomField}
+              />
             </SectionCard>
           )}
 
@@ -720,6 +741,15 @@ export default function AdminPage() {
                 </ItemCard>
               ))}
               <AddButton label="添加一条历程" onClick={() => addListItem('timelineEvents', { year: '2026', title: '新历程', description: '描述' })} />
+
+              <CustomFieldsBlock
+                sectionId="timelineEvents"
+                sectionLabel="发展历程"
+                fields={getCustomFields('timelineEvents')}
+                onUpdate={updateCustomField}
+                onAdd={addCustomField}
+                onRemove={removeCustomField}
+              />
             </SectionCard>
           )}
 
@@ -771,6 +801,15 @@ export default function AdminPage() {
                 <TextField label="底部标题" value={content.storyPage.futureTitle} onChange={(v) => updateField('storyPage', 'futureTitle', v)} />
                 <TextareaField label="底部正文" value={content.storyPage.futureText} onChange={(v) => updateField('storyPage', 'futureText', v)} />
               </div>
+
+              <CustomFieldsBlock
+                sectionId="storyPage"
+                sectionLabel="故事页内容"
+                fields={getCustomFields('storyPage')}
+                onUpdate={updateCustomField}
+                onAdd={addCustomField}
+                onRemove={removeCustomField}
+              />
             </SectionCard>
           )}
 
@@ -793,6 +832,70 @@ export default function AdminPage() {
 }
 
 /* ============ 子组件 ============ */
+
+function CustomFieldsBlock({
+  sectionId,
+  sectionLabel,
+  fields,
+  onUpdate,
+  onAdd,
+  onRemove,
+}: {
+  sectionId: string;
+  sectionLabel: string;
+  fields: Array<{ key: string; value: string }>;
+  onUpdate: (section: string, index: number, key: string, value: string) => void;
+  onAdd: (section: string) => void;
+  onRemove: (section: string, index: number) => void;
+}) {
+  return (
+    <div className="border-t border-gray-200 pt-3 mt-3">
+      <div className="flex items-center justify-between mb-2">
+        <div>
+          <p className="text-sm font-medium text-gray-700">自定义字段（{sectionLabel}）</p>
+          <p className="text-xs text-gray-400">
+            想加什么就加什么（比如第二个电话、活动时间、促销文案）。
+            注：自定义字段不会自动显示在网页上，需要展示时告诉我接哪个组件。
+          </p>
+        </div>
+        <button
+          onClick={() => onAdd(sectionId)}
+          className="text-xs bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded inline-flex items-center gap-1"
+        >
+          <Plus className="w-3 h-3" />
+          添加
+        </button>
+      </div>
+      {fields.length === 0 && (
+        <p className="text-xs text-gray-400 italic">还没有自定义字段，点上面「添加」开始</p>
+      )}
+      {fields.map((f, i) => (
+        <div key={i} className="grid grid-cols-[140px_1fr_auto] gap-2 mb-2">
+          <input
+            type="text"
+            placeholder="字段名"
+            value={f.key}
+            onChange={(e) => onUpdate(sectionId, i, e.target.value, f.value)}
+            className="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
+          />
+          <input
+            type="text"
+            placeholder="字段值"
+            value={f.value}
+            onChange={(e) => onUpdate(sectionId, i, f.key, e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 bg-white focus:border-amber-500 focus:outline-none"
+          />
+          <button
+            onClick={() => onRemove(sectionId, i)}
+            className="text-red-500 hover:bg-red-50 p-2 rounded"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function SectionCard({ title, desc, children }: { title: string; desc?: string; children: React.ReactNode }) {
   return (
