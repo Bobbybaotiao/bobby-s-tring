@@ -36,7 +36,12 @@
       "description": "精选优质面料，剪裁利落，经典风衣版型，适合多种场合穿着。细节考究，彰显品质生活。",
       "image": "item1.jpg",
       "badge": "人气爆款",
-      "features": ["优质面料", "经典版型", "多色可选", "四季可穿"],
+      "features": [
+        "优质面料",
+        "经典版型",
+        "多色可选",
+        "四季可穿"
+      ],
       "soldCount": 1280,
       "rating": 4.9,
       "showOnHome": true
@@ -48,7 +53,12 @@
       "description": "柔软舒适的针织面料，简约设计风格，修饰身形，百搭单品，轻松搭配各种造型。",
       "image": "item2.jpg",
       "badge": "热销TOP1",
-      "features": ["柔软亲肤", "修身剪裁", "百搭单品", "透气舒适"],
+      "features": [
+        "柔软亲肤",
+        "修身剪裁",
+        "百搭单品",
+        "透气舒适"
+      ],
       "soldCount": 2156,
       "rating": 4.8,
       "showOnHome": true
@@ -60,7 +70,12 @@
       "description": "一套搞定日常穿搭，面料挺括有型，休闲与时尚的完美结合，街头潮流必备之选。",
       "image": "item3.jpg",
       "badge": "限量发售",
-      "features": ["套装组合", "挺括有型", "潮流设计", "舒适自在"],
+      "features": [
+        "套装组合",
+        "挺括有型",
+        "潮流设计",
+        "舒适自在"
+      ],
       "soldCount": 893,
       "rating": 4.7,
       "showOnHome": true
@@ -77,9 +92,18 @@
       "欧蜜儿专注品质女装，以实在的价格和贴心的服务，赢得了一批又一批顾客的信赖与回头。"
     ],
     "stats": [
-      { "value": "17年", "label": "品牌沉淀" },
-      { "value": "10000+", "label": "累计顾客" },
-      { "value": "98%", "label": "好评回头率" }
+      {
+        "value": "17年",
+        "label": "品牌沉淀"
+      },
+      {
+        "value": "10000+",
+        "label": "累计顾客"
+      },
+      {
+        "value": "98%",
+        "label": "好评回头率"
+      }
     ]
   },
   "products": [
@@ -133,12 +157,36 @@
     }
   ],
   "timelineEvents": [
-    { "year": "2009", "title": "品牌创立", "description": "欧蜜儿在广州创立，开启时尚女装之旅" },
-    { "year": "2012", "title": "扎根万佳", "description": "门店入驻广州万佳批发市场2街，用心经营每一位顾客" },
-    { "year": "2015", "title": "口碑成长", "description": "凭借优质款式与实在价格，积累大批回头客" },
-    { "year": "2019", "title": "品类升级", "description": "建立稳定供应链，女装与配饰品类全面丰富" },
-    { "year": "2022", "title": "线上拓展", "description": "开通微信咨询与线上订购渠道，服务更多顾客" },
-    { "year": "2026", "title": "品牌焕新", "description": "全新品牌形象上线，17年坚守，继续专注品质女装" }
+    {
+      "year": "2009",
+      "title": "品牌创立",
+      "description": "欧蜜儿在广州创立，开启时尚女装之旅"
+    },
+    {
+      "year": "2012",
+      "title": "扎根万佳",
+      "description": "门店入驻广州万佳批发市场2街，用心经营每一位顾客"
+    },
+    {
+      "year": "2015",
+      "title": "口碑成长",
+      "description": "凭借优质款式与实在价格，积累大批回头客"
+    },
+    {
+      "year": "2019",
+      "title": "品类升级",
+      "description": "建立稳定供应链，女装与配饰品类全面丰富"
+    },
+    {
+      "year": "2022",
+      "title": "线上拓展",
+      "description": "开通微信咨询与线上订购渠道，服务更多顾客"
+    },
+    {
+      "year": "2026",
+      "title": "品牌焕新",
+      "description": "全新品牌形象上线，17年坚守，继续专注品质女装"
+    }
   ],
   "storyPage": {
     "intro": [
@@ -146,16 +194,30 @@
       "17年来，我们相信真正的时尚是一种生活态度，是对美的不懈追求。"
     ],
     "values": [
-      { "title": "设计理念", "text": "融合东方美学与西方设计，创造独特的时尚风格" },
-      { "title": "品质承诺", "text": "精选顶级面料，精湛工艺，只为呈现最完美的品质" },
-      { "title": "用心服务", "text": "扎根广州万佳批发市场，17年如一日，服务好每一位顾客" }
+      {
+        "title": "设计理念",
+        "text": "融合东方美学与西方设计，创造独特的时尚风格"
+      },
+      {
+        "title": "品质承诺",
+        "text": "精选顶级面料，精湛工艺，只为呈现最完美的品质"
+      },
+      {
+        "title": "用心服务",
+        "text": "扎根广州万佳批发市场，17年如一日，服务好每一位顾客"
+      }
     ],
     "futureImage": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=fashion%20runway%20show%20elegant%20models%20professional%20lighting%20luxury%20brand&image_size=landscape_16_9",
     "futureTitle": "展望未来",
     "futureText": "我们将继续深耕品质女装，以更美的款式、更实在的价格，回报每一位顾客的信赖"
   },
   "sectionCustomFields": {
-    "siteConfig": [],
+    "siteConfig": [
+      {
+        "key": "god",
+        "value": "we are god"
+      }
+    ],
     "heroSlides": [],
     "hotItems": [],
     "homeStory": [],
