@@ -16,17 +16,17 @@
     {
       "title": "Autumn/Winter 2024",
       "subtitle": "探索冬日优雅",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=high%20fashion%20model%20wearing%20elegant%20winter%20coat%20dark%20background%20studio%20lighting&image_size=landscape_16_9"
+      "image": "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1600&q=80"
     },
     {
       "title": "Spring/Summer 2024",
       "subtitle": "感受春日轻盈",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=high%20fashion%20model%20wearing%20light%20spring%20dress%20soft%20lighting%20elegant&image_size=landscape_16_9"
+      "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=1600&q=80"
     },
     {
       "title": "Since 2009",
       "subtitle": "十七年专注品质女装",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20women%20fashion%20clothing%20boutique%20warm%20lighting%20luxury%20style&image_size=landscape_16_9"
+      "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80"
     }
   ],
   "hotItems": [
@@ -83,7 +83,7 @@
     }
   ],
   "homeStory": {
-    "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=fashion%20designer%20studio%20elegant%20minimalist%20workspace%20creative&image_size=portrait_4_3",
+    "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80",
     "eyebrow": "Our Story",
     "titleLine1": "匠心独运",
     "titleLine2": "引领时尚",
@@ -112,7 +112,7 @@
       "id": "dress",
       "name": "裙装",
       "description": "优雅连衣裙与长裙，展现女性柔美气质",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20black%20velvet%20long%20dress%20fashion%20photography%20studio%20lighting&image_size=portrait_4_3"
+      "image": "item1.jpg"
     },
     {
       "id": "coat",
@@ -124,7 +124,7 @@
       "id": "shirt",
       "name": "衬衫",
       "description": "真丝、通勤衬衫，简约百搭单品",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=white%20silk%20blouse%20elegant%20fashion%20photography&image_size=portrait_4_3"
+      "image": "item2.jpg"
     }
   ],
   "products": [
@@ -134,7 +134,7 @@
       "price": 2999,
       "categoryId": "dress",
       "series": "2024 秋冬系列",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20black%20velvet%20long%20dress%20fashion%20photography%20studio%20lighting&image_size=portrait_4_3"
+      "image": "item1.jpg"
     },
     {
       "name": "羊绒大衣",
@@ -150,7 +150,7 @@
       "price": 1299,
       "categoryId": "shirt",
       "series": "2024 春夏系列",
-      "image": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=white%20silk%20blouse%20elegant%20fashion%20photography&image_size=portrait_4_3"
+      "image": "item2.jpg"
     }
   ],
   "timelineEvents": [
@@ -204,7 +204,7 @@
         "text": "扎根广州万佳批发市场，17年如一日，服务好每一位顾客"
       }
     ],
-    "futureImage": "https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=fashion%20runway%20show%20elegant%20models%20professional%20lighting%20luxury%20brand&image_size=landscape_16_9",
+    "futureImage": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1600&q=80",
     "futureTitle": "展望未来",
     "futureText": "我们将继续深耕品质女装，以更美的款式、更实在的价格，回报每一位顾客的信赖"
   },
