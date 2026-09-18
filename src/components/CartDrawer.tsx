@@ -110,8 +110,8 @@ export default function CartDrawer() {
                       <h3 className="text-white text-sm leading-snug">{item.name}</h3>
                       <button
                         onClick={() => removeItem(item.key)}
-                        className="text-white/30 hover:text-red-400 transition-colors p-1 shrink-0"
-                        title="移除"
+                        className="text-white/50 hover:text-red-400 transition-colors p-1.5 shrink-0 hover:bg-red-400/10 rounded"
+                        title="删除此商品"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -119,22 +119,27 @@ export default function CartDrawer() {
                     <p className="text-bobby-gold text-sm mt-1">¥{item.price.toLocaleString()}</p>
                     <div className="flex items-center justify-between mt-auto">
                       {/* 数量加减 */}
-                      <div className="flex items-center border border-white/20">
+                      <div className="flex items-center border border-white/30 bg-white/5">
                         <button
-                          onClick={() => setQty(item.key, item.qty - 1)}
-                          className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-bobby-gold transition-colors"
+                          onClick={() => {
+                            if (item.qty <= 1) removeItem(item.key);
+                            else setQty(item.key, item.qty - 1);
+                          }}
+                          className="w-9 h-9 flex items-center justify-center text-white hover:text-bobby-gold hover:bg-white/10 transition-colors"
+                          title="减少数量（减到0自动删除）"
                         >
-                          <Minus className="w-3.5 h-3.5" />
+                          <Minus className="w-4 h-4" />
                         </button>
-                        <span className="w-10 text-center text-white text-sm">{item.qty}</span>
+                        <span className="w-10 text-center text-white text-sm font-medium">{item.qty}</span>
                         <button
                           onClick={() => setQty(item.key, item.qty + 1)}
-                          className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-bobby-gold transition-colors"
+                          className="w-9 h-9 flex items-center justify-center text-white hover:text-bobby-gold hover:bg-white/10 transition-colors"
+                          title="增加数量"
                         >
-                          <Plus className="w-3.5 h-3.5" />
+                          <Plus className="w-4 h-4" />
                         </button>
                       </div>
-                      <span className="text-white/80 text-sm">
+                      <span className="text-bobby-gold text-sm font-medium">
                         小计 ¥{(item.price * item.qty).toLocaleString()}
                       </span>
                     </div>
